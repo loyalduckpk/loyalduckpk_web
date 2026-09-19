@@ -24,16 +24,25 @@ export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps
               {isBusiness ? 'Let’s make you a Duck spot.' : 'Might as well get the perks.'}
             </h2>
           </div>
-          <button
-            className="button button-dark"
-            type="button"
-            onClick={() => setDialogOpen(true)}
-          >
-            {isBusiness ? 'Become a partner' : 'Get your Duck'}
-            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M6 18 18 6M6 6h12v12"/>
-            </svg>
-          </button>
+          <div className="closing-action-wrap">
+            <button
+              className="button button-dark"
+              type="button"
+              onClick={() => setDialogOpen(true)}
+            >
+              {isBusiness ? 'Become a partner' : 'Get your Duck'}
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 18 18 6M6 6h12v12"/>
+              </svg>
+            </button>
+            <div className="closing-mascot-anchor" aria-hidden="true">
+              <img
+                src="/brand/duck-mascot.png"
+                alt="Loyal Duck Mascot"
+                className="closing-duck-img"
+              />
+            </div>
+          </div>
         </div>
       </section>
 

@@ -50,10 +50,17 @@ export default function AboutPage() {
           <div className="manifesto-line">Your usuals.</div>
           <div className="manifesto-line blue">More good stuff.</div>
           <div className="ticket-rule"></div>
-          <p>
-            Serious engine.<br />
-            <strong>Unserious Duck.</strong>
-          </p>
+          <div className="manifesto-bottom">
+            <p>
+              Serious engine.<br />
+              <strong>Unserious Duck.</strong>
+            </p>
+            <img
+              src="/brand/duck-mascot.png"
+              alt="Loyal Duck Mascot"
+              className="manifesto-duck-img"
+            />
+          </div>
           <span className="mini-symbol">
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5" />

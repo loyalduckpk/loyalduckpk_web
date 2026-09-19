@@ -6,6 +6,13 @@ export default function NotFound() {
     <div className="support-page">
       <section className="container error-page">
         <span className="eyebrow">404 / WRONG TURN. RIGHT WEBSITE.</span>
+        <div className="error-mascot-wrap" aria-hidden="true">
+          <img
+            src="/brand/duck-mascot.png"
+            alt="Loyal Duck Mascot"
+            className="error-duck-img"
+          />
+        </div>
         <div className="error-number" aria-hidden="true">
           4<span>0</span>4
         </div>

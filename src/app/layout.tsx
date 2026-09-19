@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://loyalduck.pk/og-image-v2.png?v=20260920',
         width: 1200,
         height: 630,
         alt: 'Loyal Duck — One account for all business loyalty',
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: siteTitle,
     description:
       'One account for all business loyalty. Register once, use at your favourite cafés, salons, and shops. Zero separate apps.',
-    images: ['/og-image.png'],
+    images: ['https://loyalduck.pk/og-image-v2.png?v=20260920'],
   },
   icons: {
     icon: [

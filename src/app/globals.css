@@ -96,3 +96,69 @@ textarea,select{font:inherit;color:inherit}textarea,input,select{max-width:100%}
 @media(prefers-reduced-motion:reduce){.link-card{transition:none}.journey-paper,.counter-cheat{transform:none}}
 @media print{.page-hero{padding-block:20px;gap:20px}.page-hero h1{font-size:44px}.page-hero .lead{font-size:13px}.legal-toc,.support-form,.setup-card,.offer-switch,.filter-row,.portal-actions,.footer-grid,[data-print]{display:none!important}.legal-layout{display:block;padding-bottom:0}.legal-body section{break-inside:avoid}.legal-body p{font-size:11px;line-height:1.6}.legal-body h2{font-size:21px}.legal-summary{padding-block:12px}.legal-summary p{font-size:12px}.editorial-steps article{padding-block:15px;break-inside:avoid}.editorial-steps h3{font-size:22px}.editorial-steps p{font-size:12px}.support-links{display:none}.counter-cheat{transform:none;print-color-adjust:exact}.legal-banner{font-size:10px}.operator{display:block}}
 .offer-spot [data-offer-title]{white-space:pre-line}#copy-fallback{width:100%;margin-block:14px;padding:14px;border:1px solid var(--line);border-radius:9px;font-size:13px;line-height:1.6}body.dialog-open{overflow:hidden}
+
+
+/* Subtle Brand Mascot Integration */
+.closing-action-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+.closing-mascot-anchor {
+  display: flex;
+  align-items: flex-end;
+}
+
+.closing-duck-img {
+  height: 120px;
+  width: auto;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.22));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: -22px;
+}
+
+.closing-strip:hover .closing-duck-img {
+  transform: translateY(-5px) scale(1.04);
+}
+
+@media (max-width: 760px) {
+  .closing-action-wrap {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .closing-duck-img {
+    height: 90px;
+    margin-bottom: -14px;
+  }
+}
+
+/* About Manifesto Mascot */
+.manifesto-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.manifesto-duck-img {
+  height: 125px;
+  width: auto;
+  filter: drop-shadow(0 10px 20px rgba(16, 28, 119, 0.2));
+  margin-bottom: -10px;
+}
+
+/* 404 Mascot */
+.error-mascot-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.error-duck-img {
+  height: 150px;
+  width: auto;
+  filter: drop-shadow(0 14px 28px rgba(49, 85, 255, 0.25));
+}
