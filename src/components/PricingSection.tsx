@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, ArrowUpRight } from 'lucide-react';
 import ConnectionDialog from './ConnectionDialog';
 
 export default function PricingSection() {
@@ -9,10 +8,12 @@ export default function PricingSection() {
 
   return (
     <>
-      <section className="section container pricing-section marketing-scope" id="start" aria-labelledby="pricing-title">
+      <section className="section container pricing-section" id="start" aria-labelledby="pricing-title">
         <div className="pricing-copy">
           <span className="eyebrow">05 / START WITH YOUR FIRST LOCATION</span>
-          <h2 id="pricing-title">Less commitment.<br /> <span className="cobalt gradient-text">More regulars.</span></h2>
+          <h2 id="pricing-title">
+            Less commitment.<br /> <span className="cobalt">More regulars.</span>
+          </h2>
           <p>
             Try core loyalty at one location during the founding launch. Add a reward worth returning for. We’ll help you get going.
           </p>
@@ -20,10 +21,10 @@ export default function PricingSection() {
             Additional locations, optional campaign sends and physical materials are separate. Confirm the applicable terms during onboarding.
           </p>
         </div>
-        <div className="price-card glass-card shadow-xl hover:shadow-2xl transition-shadow cursor-default">
+        <div className="price-card">
           <div className="price-head">
             <span className="eyebrow">FOUNDING LAUNCH</span>
-            <span className="pill text-amber-900 border-amber-300 shadow-sm">1 LOCATION</span>
+            <span className="pill">1 LOCATION</span>
           </div>
           <div className="price-value">
             Free<span>to start.</span>
@@ -32,24 +33,52 @@ export default function PricingSection() {
             Your own loyalty programme.<br /> Not your own software project.
           </p>
           <ul className="feature-list">
-            <li><Check className="icon w-[16px] h-[16px]" /> Points or visits, with your rewards</li>
-            <li><Check className="icon w-[16px] h-[16px]" /> Staff access and customer lookup</li>
-            <li><Check className="icon w-[16px] h-[16px]" /> Your merchant QR</li>
-            <li><Check className="icon w-[16px] h-[16px]" /> Activity and basic reporting</li>
+            <li>
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m5 12 4 4L19 6"/>
+              </svg>{' '}
+              Points or visits, with your rewards
+            </li>
+            <li>
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m5 12 4 4L19 6"/>
+              </svg>{' '}
+              Staff access and customer lookup
+            </li>
+            <li>
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m5 12 4 4L19 6"/>
+              </svg>{' '}
+              Your merchant QR
+            </li>
+            <li>
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m5 12 4 4L19 6"/>
+              </svg>{' '}
+              Activity and basic reporting
+            </li>
           </ul>
-          <button 
-            className="button button-primary shadow-lg shadow-[#3155ff30]" 
+          <button
+            className="button button-primary"
+            type="button"
             onClick={() => setDialogOpen(true)}
           >
-            Become a partner <ArrowUpRight className="icon w-[18px] h-[18px]" />
+            Become a partner
+            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 18 18 6M6 6h12v12"/>
+            </svg>
           </button>
-          <p className="price-note text-[#5F6168]">
+          <p className="price-note">
             First-location founding offer. Optional campaigns and physical kits are separate.
           </p>
         </div>
       </section>
 
-      <ConnectionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
+      <ConnectionDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        destination="businessOnboardingUrl"
+      />
     </>
   );
 }

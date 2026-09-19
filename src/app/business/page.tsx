@@ -10,7 +10,7 @@ import ClosingStrip from '@/components/ClosingStrip';
 
 export default function BusinessPage() {
   return (
-    <div className="flex flex-col w-full marketing-page">
+    <>
       <BusinessHero />
       <BusinessSetup />
       <BusinessPrograms />
@@ -19,6 +19,6 @@ export default function BusinessPage() {
       <PricingSection />
       <FaqSection variant="business" />
       <ClosingStrip variant="business" />
-    </div>
+    </>
   );
 }

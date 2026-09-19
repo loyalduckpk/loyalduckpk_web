@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, ArrowRight, Check, Coffee, Utensils, Scissors } from 'lucide-react';
 import ConnectionDialog from './ConnectionDialog';
 
 export default function HomeHero() {
@@ -10,39 +9,48 @@ export default function HomeHero() {
 
   return (
     <>
-      <section className="hero container marketing-scope" aria-labelledby="home-title">
+      <section className="hero container" aria-labelledby="home-title">
         <div className="hero-copy">
           <div className="eyebrow">
             <span className="label-dash"></span> ONE ACCOUNT. MORE GOOD STUFF.
           </div>
           <h1 id="home-title">
-            Your usuals.<br /> <span className="cobalt gradient-text">With benefits.</span>
+            Your usuals.<br /> <span className="cobalt">With benefits.</span>
           </h1>
           <p className="hero-description">
-            Coffee. A haircut. Your favourite dinner spot.<br className="desktop-break" />
-            Get rewarded across participating businesses.<br className="desktop-break" />
+            Coffee. A haircut. Your favourite dinner spot.<br className="desktop-break" />{' '}
+            Get rewarded across participating businesses.<br className="desktop-break" />{' '}
             <strong>One free account. That’s Loyal Duck.</strong>
           </p>
           <div className="hero-buttons">
-            <button 
-              className="button button-primary shadow-xl shadow-[#3155ff30]" 
+            <button
+              className="button button-primary"
+              type="button"
               onClick={() => setDialogOpen(true)}
             >
-              Get your Duck <ArrowUpRight className="icon" />
+              Get your Duck
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 18 18 6M6 6h12v12"/>
+              </svg>
             </button>
             <Link className="button button-quiet" href="/business">
-              I run a business <ArrowRight className="icon" />
+              I run a business
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6"/>
+              </svg>
             </Link>
           </div>
           <div className="hero-footnote">
             <span className="tiny-check">
-              <Check className="icon w-[15px] h-[15px]" />
-            </span> 
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m5 12 4 4L19 6"/>
+              </svg>
+            </span>{' '}
             Register once. Not again at every shop.
           </div>
         </div>
 
-        <div className="wallet-stage glass-panel-cobalt" aria-label="Illustrative multi-merchant rewards wallet">
+        <div className="wallet-stage" aria-label="Illustrative multi-merchant rewards wallet">
           <div className="stage-caption">
             <span>YOUR REGULARS, ALL TOGETHER.</span>
             <span>↙</span>
@@ -50,43 +58,68 @@ export default function HomeHero() {
           <div className="one-account-seal" aria-hidden="true">
             ONE<br /> ACCOUNT<span>NOT FIVE.</span>
           </div>
-          
-          <div className="wallet-paper glass-card">
+          <div className="wallet-paper">
             <div className="wallet-title">
               <span>Good things<br /> <strong>you’ve got going.</strong></span>
               <span className="mini-symbol">
-                <SparklesIcon />
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5"/>
+                </svg>
               </span>
             </div>
-            
-            <div className="mini-merchant coffee-merchant bg-white/60">
+
+            <div className="mini-merchant coffee-merchant">
               <div className="mini-top">
-                <span className="merchant-icon yellow shadow-sm">
-                  <Coffee className="icon w-[18px] h-[18px]" />
+                <span className="merchant-icon yellow">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M4 8h13v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Zm13 1h1a3 3 0 0 1 0 6h-1M7 3v2m4-2v2m4-2v2"/>
+                  </svg>
                 </span>
                 <div>
                   <strong>Your café</strong>
                   <span>THE USUAL, PLEASE.</span>
                 </div>
-                <span className="micro-label bg-white/80">VISITS</span>
+                <span className="micro-label">VISITS</span>
               </div>
               <div className="mini-value">
                 <strong>4 <span>/ 5</span></strong>
                 <span>One more.<br /> Remain calm.</span>
               </div>
               <div className="stamp-row" aria-hidden="true">
-                <span className="stamp filled shadow-sm"><Check className="icon w-4 h-4 text-amber-900" /></span>
-                <span className="stamp filled shadow-sm"><Check className="icon w-4 h-4 text-amber-900" /></span>
-                <span className="stamp filled shadow-sm"><Check className="icon w-4 h-4 text-amber-900" /></span>
-                <span className="stamp filled shadow-sm"><Check className="icon w-4 h-4 text-amber-900" /></span>
-                <span className="stamp empty bg-white/50"><Coffee className="icon w-4 h-4" /></span>
+                <span className="stamp filled">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m5 12 4 4L19 6"/>
+                  </svg>
+                </span>
+                <span className="stamp filled">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m5 12 4 4L19 6"/>
+                  </svg>
+                </span>
+                <span className="stamp filled">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m5 12 4 4L19 6"/>
+                  </svg>
+                </span>
+                <span className="stamp filled">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m5 12 4 4L19 6"/>
+                  </svg>
+                </span>
+                <span className="stamp empty">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M4 8h13v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Zm13 1h1a3 3 0 0 1 0 6h-1M7 3v2m4-2v2m4-2v2"/>
+                  </svg>
+                </span>
               </div>
               <p className="mini-bottom">Next up: a free coffee.</p>
             </div>
-            
-            <div className="mini-merchant compact bg-white/40 backdrop-blur-sm">
-              <span className="merchant-icon lavender shadow-sm">
-                <Utensils className="icon w-[18px] h-[18px]" />
+
+            <div className="mini-merchant compact">
+              <span className="merchant-icon lavender">
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 3v7m3-7v7M3 3v5a3 3 0 0 0 6 0V3M6 11v10M17 3c-3 4-4 8 0 9h3V3h-3Zm3 9v9"/>
+                </svg>
               </span>
               <div>
                 <strong>Your dinner spot</strong>
@@ -94,10 +127,14 @@ export default function HomeHero() {
               </div>
               <strong className="mini-balance">420<span>POINTS</span></strong>
             </div>
-            
-            <div className="mini-merchant compact bg-white/40 backdrop-blur-sm">
-              <span className="merchant-icon rose shadow-sm">
-                <Scissors className="icon w-[18px] h-[18px]" />
+
+            <div className="mini-merchant compact">
+              <span className="merchant-icon rose">
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="6" cy="6" r="3"/>
+                  <circle cx="6" cy="18" r="3"/>
+                  <path d="m8.5 7.5 12 12m-12-3 12-12M14 10l-4 4"/>
+                </svg>
               </span>
               <div>
                 <strong>Your salon</strong>
@@ -105,25 +142,21 @@ export default function HomeHero() {
               </div>
               <strong className="mini-balance">180<span>POINTS</span></strong>
             </div>
-            
+
             <div className="wallet-paper-footer">
               <span>Separate rewards.</span>
               <strong>Same Duck.</strong>
             </div>
           </div>
-          <p className="stage-disclaimer opacity-80">Illustrative rewards. Not live balances or partner listings.</p>
+          <p className="stage-disclaimer">Illustrative rewards. Not live balances or partner listings.</p>
         </div>
       </section>
 
-      <ConnectionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
+      <ConnectionDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        destination="customerAppUrl"
+      />
     </>
-  );
-}
-
-function SparklesIcon() {
-  return (
-    <svg className="icon w-[28px] h-[28px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5"/>
-    </svg>
   );
 }

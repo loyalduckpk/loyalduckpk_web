@@ -10,7 +10,7 @@ import ClosingStrip from '@/components/ClosingStrip';
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full marketing-page">
+    <>
       <HomeHero />
       <CategoryBand />
       <HowItWorks />
@@ -19,6 +19,6 @@ export default function Home() {
       <BusinessInvite />
       <FaqSection variant="customer" />
       <ClosingStrip variant="customer" />
-    </div>
+    </>
   );
 }

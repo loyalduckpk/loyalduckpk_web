@@ -63,9 +63,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
-      <body className="font-sans antialiased min-h-screen flex flex-col bg-[#F3F3F1] text-[#17181A] selection:bg-[#3155FF] selection:text-white">
+      <body id="top" className="font-sans antialiased min-h-screen flex flex-col">
+        <a className="skip-link" href="#main">Skip to content</a>
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main id="main" className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MapPin, Scissors, Droplets, ArrowUpRight } from 'lucide-react';
 import ConnectionDialog from './ConnectionDialog';
 
 export default function NearbySection() {
@@ -9,19 +8,26 @@ export default function NearbySection() {
 
   return (
     <>
-      <section className="section container nearby-section marketing-scope" aria-labelledby="nearby-title">
-        <div className="nearby-visual glass-panel shadow-2xl">
+      <section className="section container nearby-section" aria-labelledby="nearby-title">
+        <div className="nearby-visual">
           <div className="nearby-visual-head">
             <span>
-              <MapPin className="icon w-[13px] h-[13px] text-[#3155FF]" /> 
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/>
+                <circle cx="12" cy="10" r="2.5"/>
+              </svg>{' '}
               AROUND YOUR CORNER
             </span>
             <span className="micro-label">EXAMPLE OFFERS</span>
           </div>
-          
-          <div className="offer-card glass-card hover:translate-y-[-2px] transition-transform shadow-md cursor-default">
-            <span className="merchant-icon rose shadow-sm text-pink-700">
-              <Scissors className="icon w-[18px] h-[18px]" />
+
+          <div className="offer-card">
+            <span className="merchant-icon rose">
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="6" cy="6" r="3"/>
+                <circle cx="6" cy="18" r="3"/>
+                <path d="m8.5 7.5 12 12m-12-3 12-12M14 10l-4 4"/>
+              </svg>
             </span>
             <div>
               <span className="offer-category">YOUR LOCAL BARBER</span>
@@ -30,10 +36,12 @@ export default function NearbySection() {
             </div>
             <span className="offer-footer">Standalone offer · merchant terms apply</span>
           </div>
-          
-          <div className="offer-card yellow-offer glass-card hover:translate-y-[-2px] transition-transform shadow-md cursor-default border-amber-200">
-            <span className="merchant-icon white shadow-sm text-amber-700">
-              <Droplets className="icon w-[18px] h-[18px]" />
+
+          <div className="offer-card yellow-offer">
+            <span className="merchant-icon white">
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m3 11 2-6h14l2 6M3 11h18v8H3v-8Zm2 8v2m14-2v2M6 15h2m8 0h2"/>
+              </svg>
             </span>
             <div>
               <span className="offer-category">THE CAR WASH</span>
@@ -51,15 +59,21 @@ export default function NearbySection() {
             Find offers from participating Loyal Duck businesses around you. Your next favourite could be a few streets away.
           </p>
           <p className="location-note">
-            <MapPin className="icon w-[16px] h-[16px] text-emerald-600" /> 
+            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/>
+              <circle cx="12" cy="10" r="2.5"/>
+            </svg>{' '}
             Use your location. Or just choose a city.
           </p>
-          <button 
-            className="text-link group" 
+          <button
+            className="text-link"
+            type="button"
             onClick={() => setDialogOpen(true)}
           >
-            Explore in Loyal Duck 
-            <ArrowUpRight className="icon w-[16px] h-[16px] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            Explore in Loyal Duck
+            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 18 18 6M6 6h12v12"/>
+            </svg>
           </button>
           <p className="quiet-note">
             Loyalty rewards and standalone offers.<br />
@@ -68,7 +82,11 @@ export default function NearbySection() {
         </div>
       </section>
 
-      <ConnectionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
+      <ConnectionDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        destination="customerAppUrl"
+      />
     </>
   );
 }

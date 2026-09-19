@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import ConnectionDialog from './ConnectionDialog';
+import ConnectionDialog, { DestinationType } from './ConnectionDialog';
 
 interface ClosingStripProps {
   variant?: 'customer' | 'business';
@@ -10,12 +9,12 @@ interface ClosingStripProps {
 
 export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const isBusiness = variant === 'business';
+  const destination: DestinationType = isBusiness ? 'businessOnboardingUrl' : 'customerAppUrl';
 
   return (
     <>
-      <section className={`closing-strip marketing-scope ${isBusiness ? 'business-close' : ''}`} id="connect">
+      <section className={`closing-strip ${isBusiness ? 'business-close' : ''}`} id="connect">
         <div className="container closing-inner">
           <div>
             <span className="eyebrow">
@@ -25,17 +24,24 @@ export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps
               {isBusiness ? 'Let’s make you a Duck spot.' : 'Might as well get the perks.'}
             </h2>
           </div>
-          <button 
-            className="button button-dark shadow-xl" 
+          <button
+            className="button button-dark"
+            type="button"
             onClick={() => setDialogOpen(true)}
           >
-            {isBusiness ? 'Become a partner' : 'Get your Duck'} 
-            <ArrowUpRight className="icon w-[18px] h-[18px]" />
+            {isBusiness ? 'Become a partner' : 'Get your Duck'}
+            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 18 18 6M6 6h12v12"/>
+            </svg>
           </button>
         </div>
       </section>
 
-      <ConnectionDialog isOpen={dialogOpen} onClose={() => setDialogOpen(false)} />
+      <ConnectionDialog
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        destination={destination}
+      />
     </>
   );
 }

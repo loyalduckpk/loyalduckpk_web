@@ -1,61 +1,92 @@
 'use client';
 
-import React from 'react';
-import { X, ArrowRight } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+
+export type DestinationType = 'customerAppUrl' | 'businessOnboardingUrl' | 'businessLoginUrl';
 
 interface ConnectionDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  destination?: DestinationType;
 }
 
-export default function ConnectionDialog({ isOpen, onClose }: ConnectionDialogProps) {
+const dialogCopy: Record<DestinationType, string> = {
+  customerAppUrl: 'This button will open your existing Loyal Duck customer app. The standalone website preview has no customer-app URL configured yet.',
+  businessOnboardingUrl: 'This button will open your existing business application and agreement flow. The standalone website preview does not submit a merchant application.',
+  businessLoginUrl: 'This button will open your existing Loyal Duck Business login. The standalone website preview does not authenticate anyone.'
+};
+
+export default function ConnectionDialog({ isOpen, onClose, destination = 'customerAppUrl' }: ConnectionDialogProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (isOpen) {
+      if (!dialog.open) {
+        dialog.showModal();
+        document.body.classList.add('dialog-open');
+      }
+    } else {
+      if (dialog.open) {
+        dialog.close();
+        document.body.classList.remove('dialog-open');
+      }
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <>
-      <div 
-        className="fixed inset-0 bg-[#17181a80] backdrop-blur-sm z-40 transition-opacity" 
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <dialog 
-        open 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-transparent m-auto w-full h-full max-w-lg px-4"
-        aria-labelledby="connection-title"
-      >
-        <div className="glass-card w-full rounded-[23px] p-8 md:p-[42px] relative shadow-2xl">
-          <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 md:top-[14px] md:right-[14px] bg-white w-[35px] h-[35px] rounded-lg border border-[#DDDED9] flex items-center justify-center hover:bg-slate-50 transition-colors"
-            aria-label="Close dialog"
-          >
-            <X className="w-[17px] h-[17px] text-[#17181A]" />
-          </button>
-          
-          <span className="mt-[7px] text-[9px] font-[750] tracking-[0.15em] text-[#3155FF] uppercase block">
-            DESIGN PREVIEW
-          </span>
-          
-          <h2 id="connection-title" className="text-[35px] md:text-[39px] font-[740] leading-[1.06] tracking-[-0.055em] mt-[18px] text-[#17181A]">
-            The next stop<br /> is your app.
-          </h2>
-          
-          <p id="connection-copy" className="text-[14px] md:text-[15px] leading-[1.75] mt-[21px] text-[#5F6168]">
-            This preview is not connected to a live application.
-          </p>
-          
-          <p className="text-[11px] border-t border-[#DDDED9] pt-[17px] mt-[20px] text-[#5F6168]">
-            No information has been sent or saved. The production button is connected through site-config.js.
-          </p>
-          
-          <button 
-            onClick={onClose}
-            className="button button-primary w-full md:w-auto mt-[22px] text-[12px] shadow-lg shadow-[#3155ff20]"
-          >
-            Back to the good stuff <ArrowRight className="w-[18px] h-[18px]" />
-          </button>
-        </div>
-      </dialog>
-    </>
+    <dialog
+      ref={dialogRef}
+      id="connection-dialog"
+      aria-labelledby="connection-title"
+      onClick={(e) => {
+        const rect = dialogRef.current?.getBoundingClientRect();
+        if (
+          rect &&
+          (e.clientX < rect.left ||
+            e.clientX > rect.right ||
+            e.clientY < rect.top ||
+            e.clientY > rect.bottom)
+        ) {
+          onClose();
+        }
+      }}
+    >
+      <form method="dialog" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
+        <button className="dialog-close icon-button" type="button" onClick={onClose} aria-label="Close dialog">
+          <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18"/>
+          </svg>
+        </button>
+      </form>
+
+      <span className="eyebrow">DESIGN PREVIEW</span>
+      <h2 id="connection-title">The next stop<br /> is your app.</h2>
+      <p id="connection-copy">{dialogCopy[destination] || dialogCopy.customerAppUrl}</p>
+      <p className="dialog-note">No information has been sent or saved. The production button is connected through site-config.js.</p>
+      
+      <form method="dialog" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
+        <button className="button button-primary" type="button" onClick={onClose}>
+          Back to the good stuff 
+          <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14m-6-6 6 6-6 6"/>
+          </svg>
+        </button>
+      </form>
+    </dialog>
   );
 }
