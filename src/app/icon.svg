@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3862FF"/>
+      <stop offset="100%" stop-color="#1E40DE"/>
+    </linearGradient>
+    <linearGradient id="beakGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD44D"/>
+      <stop offset="100%" stop-color="#FF9E00"/>
+    </linearGradient>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#00146B" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Cobalt Squircle Container -->
+  <rect width="512" height="512" rx="136" fill="url(#bgGrad)"/>
+  <rect x="5" y="5" width="502" height="502" rx="131" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="6"/>
+
+  <g transform="translate(-18, 10)" filter="url(#subtleShadow)">
+    <!-- Duck Head & Chest Silhouette (Crisp Paper White) -->
+    <path d="
+      M 130 420
+      C 130 350, 150 265, 185 210
+      C 210 170, 248 142, 292 142
+      C 350 142, 384 180, 384 234
+      C 384 256, 376 274, 362 288
+      C 346 304, 340 324, 344 354
+      C 348 385, 360 405, 380 420
+      C 290 440, 200 440, 130 420
+      Z" 
+      fill="#FFFFFF"/>
+
+    <!-- Duck Beak / Bill (Warm Golden Glow) -->
+    <path d="
+      M 368 226
+      C 396 222, 446 230, 468 246
+      C 474 251, 472 262, 461 267
+      C 434 280, 392 284, 354 276
+      C 365 263, 370 246, 368 226
+      Z" 
+      fill="url(#beakGrad)"/>
+    
+    <!-- Smile line accent on bill -->
+    <path d="M 362 252 C 392 256, 428 256, 458 252" 
+      stroke="#E08200" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+    <!-- Eye (Deep Midnight Navy with Specular Light) -->
+    <circle cx="302" cy="220" r="19" fill="#111C44"/>
+    <circle cx="308" cy="214" r="6.5" fill="#FFFFFF"/>
+  </g>
+</svg>

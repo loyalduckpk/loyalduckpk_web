@@ -3,8 +3,18 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Simple pricing. No duck maths. — Loyal Duck',
-  description: 'Free customer accounts and a founding first-location offer for businesses. Optional campaigns and physical materials are separate.',
+  title: 'Pricing & Plans · Simple Pricing. No Duck Maths.',
+  description:
+    'Free customer accounts and a founding first-location offer for businesses. Zero hidden percentage fees, clear predictable pricing.',
+  alternates: {
+    canonical: '/pricing',
+  },
+  openGraph: {
+    title: 'Loyal Duck Pricing — Free for Customers, Transparent for Business',
+    description:
+      'Free customer accounts and founding launch offer for businesses. Zero proprietary hardware.',
+    url: 'https://loyalduck.pk/pricing',
+  },
 };
 
 export default function PricingPage() {

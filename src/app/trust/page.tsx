@@ -3,8 +3,18 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Your rewards. Your choices. — Loyal Duck',
-  description: 'Understand merchant privacy, notification choices, optional location and account deletion at Loyal Duck.',
+  title: 'Trust & Privacy Choices · Your Rewards. Your Choices.',
+  description:
+    'Understand merchant privacy, notification choices, optional location, and account controls at Loyal Duck. Your data is never sold.',
+  alternates: {
+    canonical: '/trust',
+  },
+  openGraph: {
+    title: 'Trust & Privacy at Loyal Duck — Clear Boundaries, No Data Selling',
+    description:
+      'A funny name with serious boundaries. Understand merchant privacy, permissions, and account deletion controls.',
+    url: 'https://loyalduck.pk/trust',
+  },
 };
 
 export default function TrustPage() {

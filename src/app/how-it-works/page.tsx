@@ -3,8 +3,18 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Two steps. One account. — Loyal Duck',
-  description: 'How to join Loyal Duck, identify yourself, earn separate merchant rewards and redeem with staff.',
+  title: 'How It Works · One Account for All Business Loyalty',
+  description:
+    'Join with your mobile number in seconds. Your identity works across participating businesses, while rewards and stamps stay separate for each brand.',
+  alternates: {
+    canonical: '/how-it-works',
+  },
+  openGraph: {
+    title: 'How Loyal Duck Works — One Account for All Business Loyalty',
+    description:
+      'Join with your mobile number. Your identity works across participating businesses, while rewards and stamps stay separate.',
+    url: 'https://loyalduck.pk/how-it-works',
+  },
 };
 
 export default function HowItWorksPage() {

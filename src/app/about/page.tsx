@@ -3,8 +3,18 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'An ordinary idea. An unusual Duck. — Loyal Duck',
-  description: 'Loyal Duck connects one customer account to separate rewards at many businesses. Operated by COOPON PVT LTD, Pakistan.',
+  title: 'About Us · Regular Places. Unusual Loyalty.',
+  description:
+    'Loyal Duck connects one customer account to separate rewards at many businesses across Pakistan. Operated by COOPON PVT LTD, Pakistan.',
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    title: 'About Loyal Duck — Regular Places. Unusual Loyalty.',
+    description:
+      'Loyal Duck connects one customer account to separate rewards at many businesses across Pakistan. Operated by COOPON PVT LTD.',
+    url: 'https://loyalduck.pk/about',
+  },
 };
 
 export default function AboutPage() {
