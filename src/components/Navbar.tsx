@@ -12,7 +12,11 @@ export default function Navbar() {
   const [dialogDestination, setDialogDestination] = useState<DestinationType>('customerAppUrl');
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const isBusiness = pathname === '/business';
+  const isBusiness = pathname.startsWith('/business') || 
+                     pathname.startsWith('/start-business') || 
+                     pathname.startsWith('/staff-guide') || 
+                     pathname.startsWith('/merchant-terms') ||
+                     pathname.startsWith('/campaigns');
 
   const openDialog = (destination: DestinationType) => {
     setDialogDestination(destination);
@@ -58,7 +62,7 @@ export default function Navbar() {
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5"/>
             </svg>
-            <span className="strip-note">FREE FOR CUSTOMERS. ALWAYS YOUR KIND OF PLACE.</span>
+            <span className="strip-note">ONE ACCOUNT. GOOD THINGS ALL OVER THE PLACE.</span>
           </>
         )}
       </div>
@@ -70,26 +74,37 @@ export default function Navbar() {
           </Link>
 
           <nav className="desktop-nav" aria-label="Main navigation">
-            <Link href="/#how-it-works">How it works</Link>
-            <Link href="/#rewards">The rewards</Link>
-            {isBusiness ? (
-              <Link href="/business" aria-current="page">For business</Link>
-            ) : (
-              <Link href="/business">For business</Link>
-            )}
+            <Link href="/how-it-works" aria-current={pathname === '/how-it-works' ? 'page' : undefined}>
+              How it works
+            </Link>
+            <Link href="/business" aria-current={pathname === '/business' ? 'page' : undefined}>
+              For business
+            </Link>
+            <Link href="/help" aria-current={pathname === '/help' ? 'page' : undefined}>
+              Help
+            </Link>
           </nav>
 
           <div className="nav-actions">
-            <button
-              className="button button-small button-dark"
-              type="button"
-              onClick={() => openDialog(isBusiness ? 'businessLoginUrl' : 'customerAppUrl')}
-            >
-              {isBusiness ? 'Business login' : 'Get Loyal Duck'}
-              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M6 18 18 6M6 6h12v12"/>
-              </svg>
-            </button>
+            {isBusiness ? (
+              <button
+                className="button button-small button-dark"
+                type="button"
+                onClick={() => openDialog('businessLoginUrl')}
+              >
+                Business login
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M6 18 18 6M6 6h12v12"/>
+                </svg>
+              </button>
+            ) : (
+              <Link className="button button-small button-dark" href="/get-started">
+                Get Loyal Duck
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6"/>
+                </svg>
+              </Link>
+            )}
 
             <button
               ref={menuButtonRef}
@@ -113,9 +128,23 @@ export default function Navbar() {
           aria-label="Mobile navigation"
           hidden={!mobileMenuOpen}
         >
-          <Link href="/#how-it-works" onClick={() => setMobileMenuOpen(false)}>How it works</Link>
-          <Link href="/#rewards" onClick={() => setMobileMenuOpen(false)}>The rewards</Link>
+          <Link href="/how-it-works" onClick={() => setMobileMenuOpen(false)}>How it works</Link>
           <Link href="/business" onClick={() => setMobileMenuOpen(false)}>For business</Link>
+          <Link href="/help" onClick={() => setMobileMenuOpen(false)}>Help</Link>
+          {isBusiness ? (
+            <>
+              <Link href="/start-business" onClick={() => setMobileMenuOpen(false)}>Start-business planner</Link>
+              <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
+              <Link href="/campaigns" onClick={() => setMobileMenuOpen(false)}>Offers & campaigns</Link>
+              <Link href="/staff-guide" onClick={() => setMobileMenuOpen(false)}>Staff quick guide</Link>
+            </>
+          ) : (
+            <>
+              <Link href="/offers" onClick={() => setMobileMenuOpen(false)}>Offers & nearby</Link>
+              <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+            </>
+          )}
         </nav>
       </header>
 

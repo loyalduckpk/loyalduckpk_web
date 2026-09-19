@@ -1,150 +1,176 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { Shield, Lock, FileText, CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Privacy Policy — Loyal Duck',
-  description:
-    'Transparent Privacy Policy for Loyal Duck customer and merchant applications, detailing data minimization, no data sales, and user sovereignty.',
-};
 
 export default function PrivacyPage() {
+  const handlePrint = () => {
+    if (typeof window !== 'undefined') {
+      window.print();
+    }
+  };
+
   return (
-    <div className="py-16 sm:py-24 bg-slate-50/60">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-card rounded-3xl p-8 sm:p-12 border border-white/95 shadow-xl space-y-8">
-          {/* Header */}
-          <div className="border-b border-slate-100 pb-6 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black uppercase text-[#3155FF]">
-              LEGAL & PRIVACY
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Loyal Duck Privacy Policy
-            </h1>
-            <p className="text-xs font-bold text-slate-400">
-              Effective Date: September 19, 2026 • Version 1.2
-            </p>
-          </div>
-
-          {/* Key Commitments Summary */}
-          <div className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3">
-            <h3 className="text-base font-black text-emerald-900 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-emerald-600" />
-              <span>Our Core Privacy Commitments</span>
-            </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-emerald-800 font-medium">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>We NEVER sell, rent, or monetize personal customer data to advertisers.</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Rewards stay with each independent business—no cross-merchant tracking.</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Coarse location is used strictly foreground to discover nearby offers. Never tracked in background.</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Unconditional right to account deletion with 72-hour grace period.</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Section 1 */}
-          <section className="space-y-3">
-            <h2 className="text-xl font-black text-slate-900">
-              1. Information We Collect
-            </h2>
-            <div className="text-sm text-slate-600 leading-relaxed space-y-2 font-medium">
-              <p>
-                <strong>Customer Identity:</strong> Verified mobile phone number (used for SMS OTP login and POS cashier matching) and optional display name.
-              </p>
-              <p>
-                <strong>Loyalty Ledger Data:</strong> Transaction timestamps, points earned or redeemed, visits stamped, and associated merchant location identifiers.
-              </p>
-              <p>
-                <strong>Device & Diagnostics:</strong> Anonymous crash reports and Firebase Cloud Messaging push notification installation tokens (if push permissions are granted).
-              </p>
-            </div>
-          </section>
-
-          {/* Section 2 */}
-          <section className="space-y-3">
-            <h2 className="text-xl font-black text-slate-900">
-              2. How We Use Your Data
-            </h2>
-            <div className="text-sm text-slate-600 leading-relaxed space-y-2 font-medium">
-              <p>
-                We use collected information solely to provide real-time loyalty balance calculations, prevent transaction fraud, issue verified redemption receipts, and inform you of promotions or rewards available at businesses you patronize.
-              </p>
-            </div>
-          </section>
-
-          {/* Section 3 */}
-          <section className="space-y-3">
-            <h2 className="text-xl font-black text-slate-900">
-              3. Data Retention & Erasure (Data Deletion Map)
-            </h2>
-            <div className="text-sm text-slate-600 leading-relaxed space-y-2 font-medium">
-              <p>
-                When you request account deletion through the app or our public{' '}
-                <Link href="/delete-account" className="text-[#3155FF] underline font-bold">
-                  Data Safety Portal
-                </Link>
-                , personal identifiers (name, phone number, push tokens, marketing inbox) are permanently purged after a 72-hour grace period.
-              </p>
-              <p>
-                Pursuant to statutory financial auditing, tax reconciliation, and double-entry accounting rules, ledger records (points redeemed, visits logged) are decoupled from your identity and retained in irreversible pseudonymized format (marked to merchants as &ldquo;Deleted Customer&rdquo;).
-              </p>
-            </div>
-          </section>
-
-          {/* Section 4 */}
-          <section className="space-y-3">
-            <h2 className="text-xl font-black text-slate-900">
-              4. Third-Party Service Providers
-            </h2>
-            <div className="text-sm text-slate-600 leading-relaxed space-y-2 font-medium">
-              <p>
-                We partner with vetted infrastructure providers under strict confidentiality:
-              </p>
-              <ul className="list-disc pl-5 space-y-1 text-slate-600">
-                <li><strong>Supabase:</strong> Hosted PostgreSQL database and authentication infrastructure.</li>
-                <li><strong>Google Firebase:</strong> Push notification delivery.</li>
-                <li><strong>Twilio / Telephony Providers:</strong> Transactional SMS verification codes.</li>
-                <li><strong>PayFast:</strong> Merchant subscription and commercial campaign billing.</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Section 5 */}
-          <section className="space-y-3">
-            <h2 className="text-xl font-black text-slate-900">
-              5. Contact Us
-            </h2>
-            <p className="text-sm text-slate-600 leading-relaxed font-medium">
-              If you have questions regarding this Privacy Policy or wish to exercise your
-              data rights, email our Data Protection Officer at{' '}
-              <a href="mailto:privacy@loyalduck.com" className="text-[#3155FF] font-bold underline">
-                privacy@loyalduck.com
-              </a>.
-            </p>
-          </section>
-
-          <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
-            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3155FF] hover:underline">
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Return to Home</span>
-            </Link>
-            <Link href="/delete-account" className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 hover:underline">
-              <span>Request Account Deletion</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
+    <div className="support-page legal-page">
+      {/* Page Hero */}
+      <section className="container page-hero text-only legal-hero">
+        <div className="page-hero-copy">
+          <span className="eyebrow">
+            <span className="label-dash"></span>THE SERIOUS BIT
+          </span>
+          <h1>Privacy Policy</h1>
+          <p className="lead">
+            How Loyal Duck handles information across the customer app, Business app and website.
+          </p>
         </div>
+      </section>
+
+      {/* Legal Banner */}
+      <div className="container legal-banner" data-legal-draft>
+        <strong>Legal-review draft · 19 September 2026.</strong> This page is a proposed presentation and wording, not a replacement for the currently approved policy or signed agreement. Confirm the final company, contact, retention and commercial terms before publishing.
+      </div>
+
+      {/* Summary */}
+      <section className="container legal-summary">
+        <span className="eyebrow">AT A GLANCE</span>
+        <p>
+          One account, merchant-specific rewards, optional nearby location, controlled notifications and an accessible deletion route. The details below explain the boundaries.
+        </p>
+      </section>
+
+      {/* Legal Layout with Sticky TOC */}
+      <div className="container legal-layout">
+        <aside className="legal-toc">
+          <span className="eyebrow">ON THIS PAGE</span>
+          <a href="#operator">01 / Who operates Loyal Duck</a>
+          <a href="#information">02 / Information we use</a>
+          <a href="#purpose">03 / Why it is used</a>
+          <a href="#location">04 / Location, camera and notifications</a>
+          <a href="#sharing">05 / Merchants and service providers</a>
+          <a href="#retention">06 / Retention and account deletion</a>
+          <a href="#choices">07 / Your choices and requests</a>
+          <a href="#security">08 / Security and international processing</a>
+          <a href="#website">09 / Website storage and changes</a>
+          <button type="button" className="text-link" onClick={handlePrint}>
+            Print this page
+          </button>
+        </aside>
+
+        <article className="legal-body">
+          <section id="operator">
+            <span className="legal-number">01</span>
+            <h2>Who operates Loyal Duck</h2>
+            <p>
+              <strong>loyalduck.pk is operated by COOPON PVT LTD, Pakistan.</strong> In this policy, “Loyal Duck”, “we” and “us” refer to that operator.
+            </p>
+            <p>
+              This policy covers information used to operate customer loyalty accounts, merchant and staff tools, offers, campaigns, support and this website. Use our <Link href="/contact">contact page</Link> for privacy questions.
+            </p>
+          </section>
+
+          <section id="information">
+            <span className="legal-number">02</span>
+            <h2>Information we use</h2>
+            <p>
+              Account information may include a phone number, display name, account identifier and authentication records. Business users also provide email and role information; authorised representatives provide business and agreement details.
+            </p>
+            <p>
+              Service records include merchant memberships, points or visit activity, reward and offer redemptions, transaction references, campaign interactions and support correspondence.
+            </p>
+            <p>
+              Technical records can include device and push identifiers, session information, IP address, timestamps, error reports and security events. We use these to operate, protect and troubleshoot the service.
+            </p>
+          </section>
+
+          <section id="purpose">
+            <span className="legal-number">03</span>
+            <h2>Why it is used</h2>
+            <p>
+              We use information to authenticate accounts, maintain separate merchant rewards, record authorised transactions, fulfil redemptions, operate promotions, communicate permitted updates, process business applications and agreements, answer support requests and prevent misuse.
+            </p>
+            <p>
+              Merchant campaign eligibility is based on that merchant’s relationship with the customer. Campaign reporting is not a licence to export the network’s customer contact data.
+            </p>
+          </section>
+
+          <section id="location">
+            <span className="legal-number">04</span>
+            <h2>Location, camera and notifications</h2>
+            <p>
+              Nearby offers can use foreground device location when you choose that option. City selection is an alternative. Core loyalty does not require background location tracking.
+            </p>
+            <p>
+              The Business app uses the camera for supported QR scanning. A website visit does not require camera, location or notification permission.
+            </p>
+            <p>
+              Device notification permission and Loyal Duck message preferences are separate. You can manage preferences in the app. Turning off promotional notifications does not cancel your loyalty account.
+            </p>
+          </section>
+
+          <section id="sharing">
+            <span className="legal-number">05</span>
+            <h2>Merchants and service providers</h2>
+            <p>
+              A participating business can access the information needed to operate its own customer relationship and rewards. It should not see your history with other merchants. Authorised platform staff may access limited information needed for operations, support, safety and privacy requests.
+            </p>
+            <p>
+              The documented service uses Supabase for platform infrastructure, Twilio for phone verification and Firebase Cloud Messaging for push delivery. Business workflows may use Firma for electronic agreements, PayFast for campaign payments, and operational email/automation services. These providers perform their respective service functions; their own terms may also apply.
+            </p>
+            <p>
+              We may disclose relevant information when required by applicable law, or where necessary to investigate misuse, protect people or resolve a dispute. We do not give merchants an unrestricted cross-business customer database.
+            </p>
+          </section>
+
+          <section id="retention">
+            <span className="legal-number">06</span>
+            <h2>Retention and account deletion</h2>
+            <p>
+              You can request deletion in the app or from the <Link href="/delete-account">public account-deletion page</Link>. Identity verification is required before a destructive request proceeds. The currently documented flow includes a 72-hour cancellation window; the verified request confirmation gives the applicable status and timing.
+            </p>
+            <p>
+              Deletion removes or de-identifies account information under the approved deletion process. Limited transaction, agreement, payment, security or dispute records may need to remain for specific legitimate purposes. Retention must be limited to the applicable purpose and obligation; removing a database link alone is not a guarantee that all related information is anonymous.
+            </p>
+            <p>
+              Any retained categories, applicable periods and exceptions must be reflected in the final published retention schedule. Backup expiry and restoration controls must preserve completed deletion requests. The legal-review checklist accompanying this site identifies these details for final confirmation.
+            </p>
+          </section>
+
+          <section id="choices">
+            <span className="legal-number">07</span>
+            <h2>Your choices and requests</h2>
+            <p>
+              You can manage account information and notification preferences in the app, choose whether to use location for discovery, and initiate deletion without having to reinstall the app.
+            </p>
+            <p>
+              For access, correction, account recovery or another privacy request, contact us. We may need proportionate identity verification. Do not send passwords, OTPs, full payment-card details or unnecessary identity documents through a general support form.
+            </p>
+          </section>
+
+          <section id="security">
+            <span className="legal-number">08</span>
+            <h2>Security and international processing</h2>
+            <p>
+              We use access controls, server-side authorisation and operational records to protect information. No website or app can honestly guarantee that a security incident is impossible. Report a concern through the <Link href="/contact">security topic on our contact page</Link>.
+            </p>
+            <p>
+              Service providers may process information outside Pakistan. Before publication, the operator must confirm the provider list, processing locations and any safeguards or notices required for the markets actually served.
+            </p>
+          </section>
+
+          <section id="website">
+            <span className="legal-number">09</span>
+            <h2>Website storage and changes</h2>
+            <p>
+              This supplied website does not add marketing trackers, advertising pixels or a cookie banner. Its interactive demonstrations run in memory. A configured contact form sends the information you submit to the support endpoint. Hosting providers may process ordinary request and security logs.
+            </p>
+            <p>
+              The connected apps have their own sessions and service storage. Any analytics or additional tracking introduced later must be reflected in this policy and the appropriate consent controls.
+            </p>
+            <p>
+              The final policy must show its effective date. Material changes should be communicated appropriately. The draft date above is not a statement that this policy is already legally approved.
+            </p>
+          </section>
+        </article>
       </div>
     </div>
   );
