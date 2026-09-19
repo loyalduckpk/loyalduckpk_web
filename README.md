@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🦆 Loyal Duck — Official Marketing Web Platform
 
-## Getting Started
+> **One account. Many separate rewards.**  
+> The unified customer loyalty network where customers sign up once, and rewards stay strictly separate with each independent business.
 
-First, run the development server:
+---
+
+## 🌟 Live Deployment
+
+- **Production URL**: [https://loyalduckpk-web.vercel.app](https://loyalduckpk-web.vercel.app)
+- **Deployment Platform**: Vercel (`team_dcW58pcF0w4BCWLBhNiTTfIK`)
+- **Framework**: Next.js 15 (App Router) + TypeScript + Tailwind CSS
+
+---
+
+## 🚀 Key Features
+
+1. **Interactive Rewards Wallet**:
+   - Live visual simulation of customer passes across independent cafés, salons, and restaurants.
+2. **Interactive Coffee Stamp Card**:
+   - Tap-to-stamp interactive simulator demonstrating the customer loyalty experience.
+3. **Interactive POS Counter Terminal**:
+   - Real-time switcher between **Points by Spend** and **Visit & Stamp Cards** with cashier bill confirmation preview.
+4. **8 Business Verticals**:
+   - Cafés, Restaurants, Salons & Spas, Car Washes, Barbers, Bakeries, Retail Boutiques, and Gyms.
+5. **Store Compliance Routes**:
+   - `/delete-account`: Public Google Play Data Safety & Apple App Store account deletion portal.
+   - `/privacy`: Transparent Privacy Policy detailing data practices and merchant sovereignty.
+   - `/terms`: Terms of Service.
+   - `/business`: Merchant partner application and onboarding portal.
+
+---
+
+## 🛠️ Local Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📄 License & Ownership
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2026 Loyal Duck Technologies. All rights reserved.
