@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="py-16 sm:py-24 bg-slate-50">
+    <div className="py-16 sm:py-24 bg-slate-50/60">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-8">
+        <div className="glass-card rounded-3xl p-8 sm:p-12 border border-white/95 shadow-xl space-y-8">
           <div className="border-b border-slate-100 pb-6 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black uppercase text-blue-700">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black uppercase text-[#3155FF]">
               LEGAL
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -49,15 +50,16 @@ export default function TermsPage() {
             <h2 className="text-xl font-black text-slate-900">4. Modifications & Termination</h2>
             <p className="text-sm text-slate-600 leading-relaxed font-medium">
               You may terminate your account at any time via the in-app settings or our{' '}
-              <Link href="/delete-account" className="text-blue-600 font-bold underline">
+              <Link href="/delete-account" className="text-[#3155FF] font-bold underline">
                 Data Safety Portal
               </Link>.
             </p>
           </section>
 
           <div className="pt-6 border-t border-slate-100">
-            <Link href="/" className="text-xs font-bold text-blue-600 hover:text-blue-700">
-              ← Return to Home
+            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3155FF] hover:underline">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Return to Home</span>
             </Link>
           </div>
         </div>

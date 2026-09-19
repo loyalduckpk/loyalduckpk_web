@@ -12,7 +12,7 @@ const WAY_ICONS = {
 
 export default function IdentificationWays() {
   return (
-    <section className="py-20 bg-slate-50/50">
+    <section className="py-20 bg-slate-50/40 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 mb-4">
@@ -38,13 +38,13 @@ export default function IdentificationWays() {
             return (
               <div
                 key={way.id}
-                className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-slate-300 card-hover flex flex-col justify-between"
+                className="glass-card rounded-3xl p-8 border border-white/95 shadow-lg hover:shadow-2xl hover:border-slate-300 card-hover flex flex-col justify-between"
               >
                 <div>
                   {/* Badge & Icon */}
                   <div className="flex items-center justify-between mb-6">
                     <span
-                      className="text-[11px] font-black tracking-wider uppercase px-3 py-1 rounded-full text-white"
+                      className="text-[10px] font-extrabold tracking-wider uppercase px-3 py-1 rounded-full text-white shadow-sm"
                       style={{ backgroundColor: way.accentColor }}
                     >
                       {way.badge}
@@ -63,12 +63,12 @@ export default function IdentificationWays() {
                   </h3>
 
                   {/* Tagline */}
-                  <p className="text-sm font-extrabold text-blue-600 mb-3">
+                  <p className="text-xs font-extrabold text-[#3155FF] mb-3 uppercase tracking-wide">
                     {way.tagline}
                   </p>
 
                   {/* Detailed Description */}
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     {way.description}
                   </p>
                 </div>

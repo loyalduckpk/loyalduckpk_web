@@ -2,24 +2,20 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, Heart } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
+import BrandLogo from '@/components/BrandLogo';
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-white border-t border-slate-800">
+    <footer className="bg-[#17181A] text-white border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Col 1: Brand & Tagline */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5 group inline-block">
-              <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white text-2xl shadow-md">
-                🦆
-              </div>
-              <span className="text-2xl font-black tracking-tight text-white">
-                Loyal Duck
-              </span>
+            <Link href="/" className="inline-block group">
+              <BrandLogo size="md" textDark={false} className="group-hover:opacity-90 transition-opacity" />
             </Link>
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
               One account for customers. One easy loyalty system for independent businesses.
               No plastic cards, no app clutter, separate rewards that stay with each merchant.
             </p>
@@ -31,10 +27,10 @@ export default function Footer() {
 
           {/* Col 2: Customers */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black tracking-wider uppercase text-slate-300">
+            <h4 className="text-[11px] font-extrabold tracking-wider uppercase text-slate-400">
               For Customers
             </h4>
-            <ul className="space-y-2 text-sm text-slate-400 font-semibold">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-300 font-semibold">
               <li>
                 <Link href="/#how-it-works" className="hover:text-white transition-colors">
                   How It Works
@@ -60,10 +56,10 @@ export default function Footer() {
 
           {/* Col 3: Businesses */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black tracking-wider uppercase text-slate-300">
+            <h4 className="text-[11px] font-extrabold tracking-wider uppercase text-slate-400">
               For Businesses
             </h4>
-            <ul className="space-y-2 text-sm text-slate-400 font-semibold">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-300 font-semibold">
               <li>
                 <Link href="/business" className="hover:text-white transition-colors">
                   Partner with Us
@@ -92,10 +88,10 @@ export default function Footer() {
 
           {/* Col 4: Legal & Policies */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black tracking-wider uppercase text-slate-300">
+            <h4 className="text-[11px] font-extrabold tracking-wider uppercase text-slate-400">
               Compliance & Legal
             </h4>
-            <ul className="space-y-2 text-sm text-slate-400 font-semibold">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-300 font-semibold">
               <li>
                 <Link href="/privacy" className="hover:text-white transition-colors">
                   Privacy Policy
@@ -112,7 +108,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="text-xs text-slate-500 block pt-1">
+                <span className="text-[11px] text-slate-500 block pt-1">
                   Google Play & App Store compliant
                 </span>
               </li>
@@ -121,7 +117,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
+        <div className="mt-14 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
           <p>© {new Date().getFullYear()} Loyal Duck Technologies. All rights reserved.</p>
           <p className="flex items-center gap-1">
             <span>Built with care for local businesses</span>

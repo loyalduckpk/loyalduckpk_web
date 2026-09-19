@@ -11,6 +11,7 @@ import {
   Zap,
   Users,
   Sparkles,
+  Package,
 } from 'lucide-react';
 
 export default function BusinessPage() {
@@ -30,7 +31,7 @@ export default function BusinessPage() {
   };
 
   return (
-    <div className="py-16 sm:py-24 bg-slate-50">
+    <div className="py-16 sm:py-24 bg-slate-50/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -42,7 +43,7 @@ export default function BusinessPage() {
 
           <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
             Turn first-time visitors into{' '}
-            <span className="text-blue-600">lifelong regulars.</span>
+            <span className="text-[#3155FF]">lifelong regulars.</span>
           </h1>
 
           <p className="text-lg text-slate-600 font-medium leading-relaxed">
@@ -56,14 +57,14 @@ export default function BusinessPage() {
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Why Partner With Us */}
           <div className="lg:col-span-6 space-y-8">
-            <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-lg space-y-6">
+            <div className="glass-card rounded-3xl p-8 border border-white/95 shadow-xl space-y-6">
               <h3 className="text-2xl font-black text-slate-900">
                 Why Top Independent Merchants Choose Loyal Duck
               </h3>
 
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#3155FF] border border-blue-200/60 flex items-center justify-center shrink-0">
                     <Zap className="w-5 h-5" />
                   </div>
                   <div>
@@ -78,7 +79,7 @@ export default function BusinessPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0">
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
@@ -93,7 +94,7 @@ export default function BusinessPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 text-[#D99B00] border border-amber-200/60 flex items-center justify-center shrink-0">
                     <TrendingUp className="w-5 h-5" />
                   </div>
                   <div>
@@ -108,9 +109,11 @@ export default function BusinessPage() {
                 </div>
               </div>
 
-              {/* Physical Kit Inclusion */}
+              {/* Physical Kit Inclusion - PURE VECTOR ICON, ZERO EMOJIS */}
               <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 flex items-center gap-3">
-                <span className="text-2xl">📦</span>
+                <div className="w-10 h-10 rounded-xl bg-[#3155FF]/10 text-[#3155FF] flex items-center justify-center shrink-0">
+                  <Package className="w-5 h-5" />
+                </div>
                 <div className="text-xs text-blue-900 leading-snug font-medium">
                   <span className="font-extrabold block">Free Counter Starter Kit:</span>
                   Includes premium acrylic counter display, window decals, and table QR stickers.
@@ -121,7 +124,7 @@ export default function BusinessPage() {
 
           {/* Right Column: Application Form */}
           <div id="onboarding" className="lg:col-span-6">
-            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl space-y-6">
+            <div className="glass-card rounded-3xl p-8 sm:p-10 border border-white/95 shadow-xl space-y-6">
               {submitted ? (
                 <div className="py-12 text-center space-y-4">
                   <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
@@ -139,7 +142,7 @@ export default function BusinessPage() {
                   <div className="pt-4">
                     <Link
                       href="/"
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-blue-600 text-white font-bold text-xs"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#3155FF] text-white font-bold text-xs"
                     >
                       <span>Return to Home</span>
                     </Link>
@@ -169,7 +172,7 @@ export default function BusinessPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, businessName: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-600"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#3155FF]"
                       />
                     </div>
                     <div>
@@ -184,7 +187,7 @@ export default function BusinessPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, ownerName: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-600"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#3155FF]"
                       />
                     </div>
                   </div>
@@ -202,7 +205,7 @@ export default function BusinessPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, phone: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-600"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#3155FF]"
                       />
                     </div>
                     <div>
@@ -217,7 +220,7 @@ export default function BusinessPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-600"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#3155FF]"
                       />
                     </div>
                   </div>
@@ -232,7 +235,7 @@ export default function BusinessPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, city: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-600 bg-white"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#3155FF] bg-white"
                       >
                         <option value="Lahore">Lahore</option>
                         <option value="Karachi">Karachi</option>
@@ -249,7 +252,7 @@ export default function BusinessPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, category: e.target.value })
                         }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-600 bg-white"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#3155FF] bg-white"
                       >
                         <option value="Café / Coffee Shop">Café / Coffee Shop</option>
                         <option value="Restaurant / Fast Casual">Restaurant / Fast Casual</option>
@@ -264,7 +267,7 @@ export default function BusinessPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                    className="w-full py-4 rounded-2xl bg-[#3155FF] hover:bg-[#1E3FD6] text-white font-extrabold text-xs uppercase tracking-wide shadow-lg shadow-[#3155FF]/25 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all"
                   >
                     <span>Submit Merchant Application</span>
                     <ArrowRight className="w-4 h-4" />

@@ -26,12 +26,12 @@ const CATEGORY_ICONS = {
 
 export default function CategoryGrid() {
   return (
-    <section className="py-24 bg-white border-b border-slate-200/80">
+    <section className="py-24 bg-white border-b border-slate-200/80 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 mb-4">
-          <span className="text-xs font-black tracking-wider uppercase text-blue-700">
-            ONE ACCOUNT. MANY BUSINESSES
+          <span className="text-xs font-black tracking-wider uppercase text-[#3155FF]">
+            ONE ACCOUNT • MANY BUSINESSES
           </span>
         </div>
 
@@ -54,7 +54,7 @@ export default function CategoryGrid() {
             return (
               <div
                 key={cat.name}
-                className="bg-slate-50/70 hover:bg-white rounded-3xl p-6 border border-slate-200/80 hover:border-slate-300 card-hover flex flex-col justify-between"
+                className="glass-card-subtle hover:bg-white rounded-3xl p-6 border border-slate-200/80 hover:border-slate-300 card-hover flex flex-col justify-between shadow-sm"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -72,7 +72,7 @@ export default function CategoryGrid() {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-black text-slate-900 mb-1">
+                  <h3 className="text-lg font-black text-slate-900 mb-1 tracking-tight">
                     {cat.name}
                   </h3>
 

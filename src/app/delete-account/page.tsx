@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ShieldAlert, Clock, CheckCircle2, Lock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { ShieldAlert, Clock, CheckCircle2, Lock, ArrowRight, ShieldCheck, ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 export default function DeleteAccountPage() {
   return (
-    <div className="py-16 sm:py-24 bg-slate-50">
+    <div className="py-16 sm:py-24 bg-slate-50/60">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-6">
+        <div className="glass-card rounded-3xl p-8 sm:p-12 border border-white/95 shadow-xl space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200">
             <span className="text-xs font-black tracking-wider uppercase text-rose-700">
               DATA SAFETY & TRANSPARENCY
@@ -32,8 +32,8 @@ export default function DeleteAccountPage() {
             are legally retained.
           </p>
 
-          <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
+          <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 flex items-center gap-3">
+            <ShieldCheck className="w-5 h-5 text-[#3155FF] shrink-0" />
             <p className="text-xs sm:text-sm text-blue-900 font-semibold">
               Official URL for Google Play Data Safety & Apple App Store account deletion disclosures.
             </p>
@@ -41,16 +41,16 @@ export default function DeleteAccountPage() {
         </div>
 
         {/* 3 Step Instruction Card */}
-        <div className="mt-8 bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-lg space-y-8">
+        <div className="mt-8 glass-card rounded-3xl p-8 sm:p-12 border border-white/95 shadow-lg space-y-8">
           <h2 className="text-2xl font-black text-slate-900">
             How to Request Account Deletion
           </h2>
 
           <div className="space-y-6">
             {/* Step 1: In App */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div className="p-6 rounded-2xl bg-slate-50/80 border border-slate-200 space-y-3">
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm">
+                <span className="w-8 h-8 rounded-xl bg-[#3155FF] text-white flex items-center justify-center font-black text-sm">
                   1
                 </span>
                 <h3 className="text-lg font-black text-slate-900">
@@ -66,7 +66,7 @@ export default function DeleteAccountPage() {
             </div>
 
             {/* Step 2: Via Web */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div className="p-6 rounded-2xl bg-slate-50/80 border border-slate-200 space-y-3">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm">
                   2
@@ -83,7 +83,7 @@ export default function DeleteAccountPage() {
             </div>
 
             {/* Step 3: Lost Phone */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div className="p-6 rounded-2xl bg-slate-50/80 border border-slate-200 space-y-3">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-sm">
                   3
@@ -94,7 +94,7 @@ export default function DeleteAccountPage() {
               </div>
               <p className="text-sm text-slate-600 leading-relaxed pl-11">
                 If you lost access to your SIM and cannot receive an OTP, submit a manual request
-                to <span className="font-mono text-blue-600 font-bold">privacy@loyalduck.com</span> with your registered
+                to <span className="font-mono text-[#3155FF] font-bold">privacy@loyalduck.com</span> with your registered
                 details. Our privacy officer will assist you within 72 hours.
               </p>
             </div>
@@ -102,15 +102,15 @@ export default function DeleteAccountPage() {
         </div>
 
         {/* Data Deletion Map */}
-        <div className="mt-8 bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-lg space-y-6">
+        <div className="mt-8 glass-card rounded-3xl p-8 sm:p-12 border border-white/95 shadow-lg space-y-6">
           <h2 className="text-2xl font-black text-slate-900">
             What Data is Deleted vs. Retained
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Deleted Immediately */}
-            <div className="p-6 rounded-2xl bg-rose-50/50 border border-rose-200/80 space-y-3">
-              <span className="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-black uppercase">
+            <div className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 space-y-3">
+              <span className="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-black uppercase tracking-wider">
                 Permanently Deleted
               </span>
               <ul className="space-y-2 text-xs sm:text-sm text-slate-700 font-medium pt-2">
@@ -146,8 +146,8 @@ export default function DeleteAccountPage() {
             </div>
 
             {/* Retained in Pseudonymized Form */}
-            <div className="p-6 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-3">
-              <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-black uppercase">
+            <div className="p-6 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-3">
+              <span className="px-3 py-1 rounded-full bg-amber-100 text-[#D99B00] text-xs font-black uppercase tracking-wider">
                 Retained Pseudonymously
               </span>
               <ul className="space-y-2 text-xs sm:text-sm text-slate-700 font-medium pt-2">
@@ -179,8 +179,8 @@ export default function DeleteAccountPage() {
         </div>
 
         {/* Grace Period Notice */}
-        <div className="mt-8 p-6 rounded-3xl bg-blue-50 border border-blue-200 flex items-start gap-4">
-          <Clock className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+        <div className="mt-8 p-6 rounded-3xl bg-blue-50/80 border border-blue-200 flex items-start gap-4">
+          <Clock className="w-6 h-6 text-[#3155FF] shrink-0 mt-1" />
           <div className="space-y-1 text-sm text-slate-700">
             <h4 className="font-extrabold text-blue-900 text-base">
               72-Hour Grace Period & Remorse Window
@@ -198,9 +198,10 @@ export default function DeleteAccountPage() {
         <div className="mt-12 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold text-[#3155FF] hover:underline"
           >
-            <span>← Back to Loyal Duck Home</span>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Loyal Duck Home</span>
           </Link>
         </div>
       </div>

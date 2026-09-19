@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Shield, Lock, FileText, CheckCircle2 } from 'lucide-react';
+import { Shield, Lock, FileText, CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="py-16 sm:py-24 bg-slate-50">
+    <div className="py-16 sm:py-24 bg-slate-50/60">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-8">
+        <div className="glass-card rounded-3xl p-8 sm:p-12 border border-white/95 shadow-xl space-y-8">
           {/* Header */}
           <div className="border-b border-slate-100 pb-6 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black uppercase text-blue-700">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black uppercase text-[#3155FF]">
               LEGAL & PRIVACY
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
             <div className="text-sm text-slate-600 leading-relaxed space-y-2 font-medium">
               <p>
                 When you request account deletion through the app or our public{' '}
-                <Link href="/delete-account" className="text-blue-600 underline font-bold">
+                <Link href="/delete-account" className="text-[#3155FF] underline font-bold">
                   Data Safety Portal
                 </Link>
                 , personal identifiers (name, phone number, push tokens, marketing inbox) are permanently purged after a 72-hour grace period.
@@ -128,18 +128,20 @@ export default function PrivacyPage() {
             <p className="text-sm text-slate-600 leading-relaxed font-medium">
               If you have questions regarding this Privacy Policy or wish to exercise your
               data rights, email our Data Protection Officer at{' '}
-              <a href="mailto:privacy@loyalduck.com" className="text-blue-600 font-bold underline">
+              <a href="mailto:privacy@loyalduck.com" className="text-[#3155FF] font-bold underline">
                 privacy@loyalduck.com
               </a>.
             </p>
           </section>
 
           <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
-            <Link href="/" className="text-xs font-bold text-blue-600 hover:text-blue-700">
-              ← Return to Home
+            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3155FF] hover:underline">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Return to Home</span>
             </Link>
-            <Link href="/delete-account" className="text-xs font-bold text-rose-600 hover:text-rose-700">
-              Request Account Deletion →
+            <Link href="/delete-account" className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 hover:underline">
+              <span>Request Account Deletion</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://loyalduck.com'),
   title: 'Loyal Duck — One account. Many separate rewards.',
   description:
-    'Register with Loyal Duck once. Then your identity works at participating restaurants, cafés, salons, shops, car washes and more without pooling anyone&apos;s rewards.',
+    'Register with Loyal Duck once. Then your identity works at participating restaurants, cafés, salons, shops, car washes and more without pooling anyone\'s rewards.',
   keywords: [
     'loyalty program',
     'customer rewards',
@@ -63,7 +63,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
-      <body className="font-sans antialiased min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-600 selection:text-white">
+      <body className="font-sans antialiased min-h-screen flex flex-col bg-[#F3F3F1] text-[#17181A] selection:bg-[#3155FF] selection:text-white">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -20,11 +20,11 @@ const STEP_ICONS = [
 
 export default function RegisterLifecycle() {
   return (
-    <section id="how-it-works" className="py-20 bg-white border-y border-slate-200/80">
+    <section id="how-it-works" className="py-20 bg-white border-y border-slate-200/80 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Section Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 mb-4">
-          <span className="text-xs font-black tracking-wider uppercase text-blue-700">
+          <span className="text-xs font-black tracking-wider uppercase text-[#3155FF]">
             REGISTER ONCE
           </span>
         </div>
@@ -47,21 +47,21 @@ export default function RegisterLifecycle() {
             return (
               <div
                 key={step.step}
-                className="relative bg-slate-50/70 hover:bg-white rounded-3xl p-6 border border-slate-200/80 hover:border-blue-300 card-hover flex flex-col justify-between"
+                className="relative glass-card-subtle hover:bg-white rounded-3xl p-6 border border-slate-200/80 hover:border-[#3155FF]/40 card-hover flex flex-col justify-between shadow-sm"
               >
                 <div>
                   {/* Step Number & Icon Header */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-2xl font-black text-blue-600">
+                    <span className="font-mono text-2xl font-black text-[#3155FF]">
                       {step.step}
                     </span>
-                    <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-sm">
-                      <IconComponent className="w-5 h-5 text-blue-600" />
+                    <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-[#3155FF] shadow-sm">
+                      <IconComponent className="w-5 h-5" />
                     </div>
                   </div>
 
                   {/* Step Title */}
-                  <h3 className="text-sm font-black text-slate-900 tracking-wider uppercase mb-2">
+                  <h3 className="text-xs font-extrabold text-slate-900 tracking-wider uppercase mb-2">
                     {step.title}
                   </h3>
 
@@ -73,7 +73,7 @@ export default function RegisterLifecycle() {
 
                 {/* Bottom Highlight Tag */}
                 <div className="mt-6 pt-3 border-t border-slate-200/60">
-                  <span className="inline-block text-[11px] font-extrabold text-blue-700 bg-blue-50/80 px-2.5 py-1 rounded-lg">
+                  <span className="inline-block text-[10px] font-extrabold text-[#3155FF] bg-blue-50/80 border border-blue-100 px-2.5 py-1 rounded-lg">
                     {step.highlight}
                   </span>
                 </div>

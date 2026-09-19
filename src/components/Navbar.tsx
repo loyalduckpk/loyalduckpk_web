@@ -3,51 +3,42 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import BrandLogo from '@/components/BrandLogo';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full glass-panel border-b border-slate-200/80 transition-all">
+    <header className="sticky top-0 z-50 w-full glass-panel border-b border-white/60 shadow-sm transition-all backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-            <span className="text-2xl leading-none">🦆</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl font-black tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
-              Loyal Duck
-            </span>
-            <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400 -mt-1">
-              One Account. Many Rewards.
-            </span>
-          </div>
+        {/* Brand Logo with Bespoke Vector Monogram */}
+        <Link href="/" className="group">
+          <BrandLogo size="md" textDark={true} className="group-hover:opacity-95 transition-opacity" />
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-slate-600">
+        <nav className="hidden md:flex items-center gap-8 text-xs font-extrabold tracking-wider uppercase text-slate-600">
           <Link
             href="/#customers"
-            className="hover:text-blue-600 transition-colors"
+            className="hover:text-[#3155FF] transition-colors"
           >
-            FOR CUSTOMERS
+            For Customers
           </Link>
           <Link
             href="/#businesses"
-            className="hover:text-blue-600 transition-colors"
+            className="hover:text-[#3155FF] transition-colors"
           >
-            FOR BUSINESSES
+            For Businesses
           </Link>
           <Link
             href="/#how-it-works"
-            className="hover:text-blue-600 transition-colors"
+            className="hover:text-[#3155FF] transition-colors"
           >
-            HOW IT WORKS
+            How It Works
           </Link>
           <Link
             href="/#faq"
-            className="hover:text-blue-600 transition-colors"
+            className="hover:text-[#3155FF] transition-colors"
           >
             FAQ
           </Link>
@@ -57,17 +48,17 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <Link
             href="/business"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#3155FF] hover:bg-[#1E3FD6] text-white font-extrabold text-xs tracking-wide uppercase shadow-lg shadow-[#3155FF]/25 hover:shadow-xl hover:shadow-[#3155FF]/35 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <span>Partner with us</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         {/* Mobile Menu Toggle Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
+          className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-200/50 transition-colors"
           aria-label="Toggle Menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -76,33 +67,33 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-200 bg-white/95 backdrop-blur-xl px-6 py-6 space-y-4 shadow-xl">
-          <nav className="flex flex-col space-y-3 text-base font-bold text-slate-700">
+        <div className="md:hidden border-b border-white/60 bg-white/95 backdrop-blur-2xl px-6 py-6 space-y-4 shadow-xl">
+          <nav className="flex flex-col space-y-3 text-sm font-extrabold uppercase tracking-wide text-slate-700">
             <Link
               href="/#customers"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 hover:text-blue-600"
+              className="py-2 hover:text-[#3155FF]"
             >
               For Customers
             </Link>
             <Link
               href="/#businesses"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 hover:text-blue-600"
+              className="py-2 hover:text-[#3155FF]"
             >
               For Businesses
             </Link>
             <Link
               href="/#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 hover:text-blue-600"
+              className="py-2 hover:text-[#3155FF]"
             >
               How It Works
             </Link>
             <Link
               href="/#faq"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 hover:text-blue-600"
+              className="py-2 hover:text-[#3155FF]"
             >
               FAQ
             </Link>
@@ -111,7 +102,7 @@ export default function Navbar() {
             <Link
               href="/business"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 rounded-2xl bg-blue-600 text-white text-center font-bold text-sm shadow-md shadow-blue-500/25"
+              className="w-full py-3 rounded-2xl bg-[#3155FF] text-white text-center font-extrabold text-xs uppercase tracking-wide shadow-md shadow-[#3155FF]/25"
             >
               Partner with Loyal Duck
             </Link>

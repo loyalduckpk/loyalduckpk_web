@@ -8,11 +8,11 @@ const PILLAR_ICONS = [ShieldCheck, Store, Smile];
 
 export default function WhyLoyalDuck() {
   return (
-    <section className="py-24 bg-white border-b border-slate-200/80">
+    <section className="py-24 bg-white border-b border-slate-200/80 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 mb-4">
-          <span className="text-xs font-black tracking-wider uppercase text-blue-700">
+          <span className="text-xs font-black tracking-wider uppercase text-[#3155FF]">
             WHY LOYAL DUCK
           </span>
         </div>
@@ -34,14 +34,14 @@ export default function WhyLoyalDuck() {
             return (
               <div
                 key={pillar.number}
-                className="bg-slate-50/70 hover:bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-slate-300 card-hover flex flex-col justify-between"
+                className="glass-card-subtle hover:bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-slate-300 card-hover flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-2xl font-black text-blue-600">
+                    <span className="font-mono text-2xl font-black text-[#3155FF]">
                       {pillar.number}
                     </span>
-                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-blue-600 shadow-sm">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-[#3155FF] shadow-sm">
                       <IconComponent className="w-6 h-6" />
                     </div>
                   </div>
@@ -56,7 +56,7 @@ export default function WhyLoyalDuck() {
                 </div>
 
                 <div className="mt-8 pt-4 border-t border-slate-200/60">
-                  <span className="text-xs font-extrabold text-blue-700 bg-blue-50/90 px-3 py-1.5 rounded-lg inline-block">
+                  <span className="text-xs font-extrabold text-[#3155FF] bg-blue-50/90 border border-blue-100 px-3 py-1.5 rounded-lg inline-block">
                     {pillar.highlight}
                   </span>
                 </div>
