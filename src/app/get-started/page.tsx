@@ -1,17 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import ConnectionDialog, { DestinationType } from '@/components/ConnectionDialog';
+import { getDestinations } from '@/lib/destinations';
 
 export default function GetStartedPage() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogDestination, setDialogDestination] = useState<DestinationType>('customerAppUrl');
-
-  const openDialog = (dest: DestinationType) => {
-    setDialogDestination(dest);
-    setDialogOpen(true);
-  };
+  const destinations = getDestinations();
 
   return (
     <div className="support-page">
@@ -41,29 +35,21 @@ export default function GetStartedPage() {
             One free account across participating businesses. Register with your number and SMS code. No new signup at every shop.
           </p>
           <div className="portal-actions">
-            <button
-              className="button button-primary"
-              type="button"
-              onClick={() => openDialog('customerAppUrl')}
-            >
-              Open Loyal Duck
+            <Link className="button button-primary" href="/how-it-works">
+              How rewards work
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </button>
-            <button
-              className="button button-quiet"
-              type="button"
-              onClick={() => openDialog('customerAppUrl')}
-            >
-              View Android app
+            </Link>
+            <Link className="button button-quiet" href="/offers">
+              Explore offers
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </button>
+            </Link>
           </div>
           <p className="fineprint">
-            Use the customer web experience on supported browsers, including iPhone. An Android store link appears only after it has been verified.
+            Use Loyal Duck on any modern mobile browser. Register once with your phone number at your first participating business or at the counter. No APK or store download required to earn rewards.
           </p>
         </article>
 
@@ -75,16 +61,15 @@ export default function GetStartedPage() {
             Staff, managers and owners: use Loyal Duck Business for the counter, rewards, promotions and reports.
           </p>
           <div className="portal-actions">
-            <button
+            <a
               className="button button-dark"
-              type="button"
-              onClick={() => openDialog('businessLoginUrl')}
+              href={destinations.businessLoginUrl}
             >
               Business login
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </button>
+            </a>
             <Link className="button button-quiet" href="/start-business">
               New business? Start here
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -121,12 +106,6 @@ export default function GetStartedPage() {
           </details>
         </div>
       </section>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination={dialogDestination}
-      />
     </div>
   );
 }

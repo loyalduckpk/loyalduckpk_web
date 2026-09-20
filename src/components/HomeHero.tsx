@@ -1,12 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import ConnectionDialog from './ConnectionDialog';
 
 export default function HomeHero() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <>
       <section className="hero container" aria-labelledby="home-title">
@@ -23,16 +20,15 @@ export default function HomeHero() {
             <strong>One free account. That’s Loyal Duck.</strong>
           </p>
           <div className="hero-buttons">
-            <button
+            <Link
               className="button button-primary"
-              type="button"
-              onClick={() => setDialogOpen(true)}
+              href="/get-started"
             >
               Get your Duck
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M6 18 18 6M6 6h12v12"/>
+                <path d="M5 12h14m-6-6 6 6-6 6"/>
               </svg>
-            </button>
+            </Link>
             <Link className="button button-quiet" href="/business">
               I run a business
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -151,12 +147,6 @@ export default function HomeHero() {
           <p className="stage-disclaimer">Illustrative rewards. Not live balances or partner listings.</p>
         </div>
       </section>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination="customerAppUrl"
-      />
     </>
   );
 }

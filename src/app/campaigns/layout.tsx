@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Campaigns & Retention \u00b7 For Business",
-  description: "Re-engage quiet regulars, announce limited-time seasonal perks, and drive foot traffic without spam.",
+  title: "Campaigns & Retention · For Business",
+  description: "Tell your own eligible, opted-in customers about reviewed promotions. Respectful marketing with zero customer spam.",
   alternates: {
     canonical: "/campaigns",
   },
   openGraph: {
-    title: "Campaigns & Retention \u00b7 For Business",
-    description: "Re-engage quiet regulars, announce limited-time seasonal perks, and drive foot traffic without spam.",
+    title: "Campaigns & Retention · For Business",
+    description: "Tell your own eligible, opted-in customers about reviewed promotions. Respectful marketing with zero customer spam.",
     url: 'https://loyalduck.pk/campaigns',
   },
 };

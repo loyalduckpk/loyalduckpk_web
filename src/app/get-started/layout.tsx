@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Get Started \u00b7 Download & Join Loyal Duck",
-  description: "Register once with your phone number and start earning rewards immediately at participating businesses across Pakistan.",
+  title: "Get Started · Customer Rewards & Business Login",
+  description: "Register once with your phone number for customer rewards, or log in to Loyal Duck Business to manage your counter and rewards programme.",
   alternates: {
     canonical: "/get-started",
   },
   openGraph: {
-    title: "Get Started \u00b7 Download & Join Loyal Duck",
-    description: "Register once with your phone number and start earning rewards immediately at participating businesses across Pakistan.",
+    title: "Get Started · Customer Rewards & Business Login",
+    description: "Register once with your phone number for customer rewards, or log in to Loyal Duck Business to manage your counter and rewards programme.",
     url: 'https://loyalduck.pk/get-started',
   },
 };

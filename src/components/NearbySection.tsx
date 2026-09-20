@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import ConnectionDialog from './ConnectionDialog';
+import React from 'react';
+import Link from 'next/link';
 
 export default function NearbySection() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <>
       <section className="section container nearby-section" aria-labelledby="nearby-title">
@@ -65,28 +63,21 @@ export default function NearbySection() {
             </svg>{' '}
             Use your location. Or just choose a city.
           </p>
-          <button
+          <Link
             className="text-link"
-            type="button"
-            onClick={() => setDialogOpen(true)}
+            href="/offers"
           >
             Explore in Loyal Duck
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M6 18 18 6M6 6h12v12"/>
+              <path d="M5 12h14m-6-6 6 6-6 6"/>
             </svg>
-          </button>
+          </Link>
           <p className="quiet-note">
             Loyalty rewards and standalone offers.<br />
             Different good things. Same account.
           </p>
         </div>
       </section>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination="customerAppUrl"
-      />
     </>
   );
 }

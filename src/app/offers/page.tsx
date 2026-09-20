@@ -57,7 +57,7 @@ export default function OffersPage() {
             </Link>
           </div>
           <p className="fineprint">
-            This website explains the feature. Live availability is shown in the app.
+            This website explains the feature. Genuine merchant listings appear in the customer app from eligible participating businesses.
           </p>
         </div>
 

@@ -17,17 +17,17 @@ export default function BusinessSetup() {
         <article className="step">
           <span className="step-number">01</span>
           <h3>Tell us<br /> about your place.</h3>
-          <p>Add your business and branch details. We review your application and guide your authorised signatory through the agreement.</p>
+          <p>Find your business or add it yourself—no Google listing required. Unlisted or mobile businesses start basic loyalty without upfront payment or routine approval.</p>
         </article>
         <article className="step">
           <span className="step-number">02</span>
           <h3>Choose what<br /> loyalty looks like.</h3>
-          <p>Points or visits. Free coffee, a discount or a service. Set a reward that works for your customers and your business.</p>
+          <p>Run your own points or visits programme. Free coffee, a discount or a service. Your rewards stay separate, while customers use their one Loyal Duck account.</p>
         </article>
         <article className="step">
           <span className="step-number">03</span>
           <h3>Give your<br /> team the controls.</h3>
-          <p>Invite staff, set their access and put your QR at the counter. Your team identifies the customer and records what happened.</p>
+          <p>Staff use the existing Business browser workflow beside your POS. Put your QR at the counter; your team identifies the customer and records the transaction.</p>
         </article>
       </div>
     </section>

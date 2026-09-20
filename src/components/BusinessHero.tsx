@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import ConnectionDialog from './ConnectionDialog';
+import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 export default function BusinessHero() {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const destinations = getDestinations();
   const [billInput, setBillInput] = useState('5200');
   const [submitted, setSubmitted] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
@@ -52,24 +53,23 @@ export default function BusinessHero() {
             A better reason<br /> to <span className="cobalt">come back.</span>
           </h1>
           <p className="hero-description">
-            Your customers. Your rewards. Without building another app or replacing your POS.
-          </p>
-          <p className="business-hero-detail">
-            Give your regulars points or visit rewards. Let your team handle the rest from Loyal Duck Business.
+            Create your own points or visits programme. Set a reward and start with the customers you already serve—without replacing your POS.
           </p>
           <div className="hero-buttons">
-            <button
+            <Link
               className="button button-primary"
-              type="button"
-              onClick={() => setDialogOpen(true)}
+              href="/start-business"
             >
-              Become a partner
+              Start your free programme
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M6 18 18 6M6 6h12v12"/>
               </svg>
-            </button>
-            <a className="button button-quiet" href="#counter">
-              Try the counter
+            </Link>
+            <a
+              className="button button-quiet"
+              href={destinations.businessLoginUrl}
+            >
+              Business login
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6"/>
               </svg>
@@ -81,7 +81,7 @@ export default function BusinessHero() {
                 <path d="m5 12 4 4L19 6"/>
               </svg>
             </span>{' '}
-            First location free during the founding launch.
+            No Google listing required. No card needed to start. First location free during founding launch.
           </div>
         </div>
 
@@ -194,12 +194,6 @@ export default function BusinessHero() {
           </span>
         </div>
       </div>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination="businessOnboardingUrl"
-      />
     </>
   );
 }

@@ -25,9 +25,9 @@ export default function TermsPage() {
         </div>
       </section>
 
-      {/* Draft Banner */}
-      <div className="container legal-banner" data-legal-draft>
-        <strong>Legal-review draft · 19 September 2026.</strong> This page is a proposed presentation and wording, not a replacement for the currently approved policy or signed agreement. Confirm the final company, contact, retention and commercial terms before publishing.
+      {/* Policy Effective Banner */}
+      <div className="container legal-banner">
+        <strong>Effective Date: 20 September 2026.</strong> Official Terms of Service for Loyal Duck, operated by <strong>COOPON PVT LTD, Pakistan</strong>.
       </div>
 
       {/* Summary */}

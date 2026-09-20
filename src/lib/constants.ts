@@ -60,8 +60,8 @@ export const LIFECYCLE_STEPS = [
   {
     step: '03',
     title: 'BUSINESS RECORDS EVENT',
-    description: 'Staff records your purchase or qualifying visit in 2 seconds at the counter.',
-    highlight: 'Instant POS verification',
+    description: 'Staff records your purchase or qualifying visit in a few simple steps at the counter.',
+    highlight: 'Quick counter recording',
     icon: 'CreditCard',
   },
   {

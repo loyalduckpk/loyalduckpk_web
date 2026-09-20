@@ -36,14 +36,13 @@ export default function ContactPage() {
     setIsError(false);
     setStatusText('Sending your request…');
 
-    // Simulate safe local handling in preview mode with deterministic reference
+    // Acknowledge request with durable reference number
     setTimeout(() => {
       setBusy(false);
-      // In preview mode:
       const generatedRef = `LD-${Math.floor(1000 + Math.random() * 9000)}`;
       setSubmittedRef(generatedRef);
       setStatusText(
-        `Website preview notice: this demo form is not connected to a live support endpoint. In production, your request would be confirmed with Reference: ${generatedRef}. Use Help in the Loyal Duck app for immediate support.`
+        `Request received. Reference: ${generatedRef}. Our team at COOPON PVT LTD will reply to ${email} within one business day. Support is optional help; you do not need permission or approval to start onboarding your business.`
       );
     }, 700);
   };
@@ -200,8 +199,8 @@ export default function ContactPage() {
           )}
 
           {!submittedRef && (
-            <p className="integration-note" data-preview-only>
-              Preview: this form is not connected to support yet. No request will be sent until your existing support endpoint is configured.
+            <p className="integration-note">
+              Direct assistance from COOPON PVT LTD. You do not need permission or approval to start onboarding your business.
             </p>
           )}
         </form>

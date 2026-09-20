@@ -5,14 +5,14 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'How It Works · One Account for All Business Loyalty',
   description:
-    'Join with your mobile number in seconds. Your identity works across participating businesses, while rewards and stamps stay separate for each brand.',
+    'Join with your mobile number in a few simple steps. Your identity works across participating businesses, while rewards and stamps stay separate for each brand.',
   alternates: {
     canonical: '/how-it-works',
   },
   openGraph: {
     title: 'How Loyal Duck Works — One Account for All Business Loyalty',
     description:
-      'Join with your mobile number. Your identity works across participating businesses, while rewards and stamps stay separate.',
+      'Join with your mobile number in a few simple steps. Your identity works across participating businesses, while rewards and stamps stay separate.',
     url: 'https://loyalduck.pk/how-it-works',
   },
 };

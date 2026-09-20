@@ -136,6 +136,25 @@ export default function TrustPage() {
         </div>
       </section>
 
+      {/* Verification Truth Section */}
+      <section className="section container two-column-copy">
+        <div>
+          <span className="eyebrow">REAL CHECKS, NOT THEATRE</span>
+          <h2>Starter authority.<br />Progressive verification.</h2>
+        </div>
+        <div className="body-stack">
+          <p>
+            <strong>Counter operations start with declared authority:</strong> an authorised owner or representative confirms their identity and authority to serve customers at the counter.
+          </p>
+          <p>
+            <strong>Public directory discovery requires business-control verification:</strong> appearing in the public merchant directory requires progressive evidence, such as domain ownership or location control. A Google listing alone does not confer verified business ownership.
+          </p>
+          <p>
+            We display no misleading &ldquo;verified&rdquo; badges on businesses that have only completed basic counter setup.
+          </p>
+        </div>
+      </section>
+
       {/* Closing Strip */}
       <section className="closing-strip">
         <div className="container closing-inner">

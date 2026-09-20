@@ -63,13 +63,13 @@ export default function PricingPage() {
             <li>Merchant QR &amp; basic activity reporting</li>
           </ul>
           <Link className="button button-primary" href="/start-business">
-            Start with one location
+            Start your free programme
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
           </Link>
           <p className="price-note">
-            Founding offer for core loyalty. Additional locations, campaigns and physical materials are separate. Onboarding confirms the applicable terms.
+            No Google listing required. No card needed to start. Founding offer for core loyalty. Additional locations, campaigns and physical materials are separate. Onboarding confirms the applicable terms.
           </p>
         </div>
       </section>
@@ -170,7 +170,7 @@ export default function PricingPage() {
             <h2>Start small.<br />Give a Duck.</h2>
           </div>
           <Link className="button button-dark" href="/start-business">
-            Plan my first programme
+            Start your free programme
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>

@@ -8,15 +8,45 @@ interface ConnectionDialogProps {
   isOpen: boolean;
   onClose: () => void;
   destination?: DestinationType;
+  handoffUrl?: string;
+  businessName?: string;
 }
 
-const dialogCopy: Record<DestinationType, string> = {
-  customerAppUrl: 'This button will open your existing Loyal Duck customer app. The standalone website preview has no customer-app URL configured yet.',
-  businessOnboardingUrl: 'This button will open your existing business application and agreement flow. The standalone website preview does not submit a merchant application.',
-  businessLoginUrl: 'This button will open your existing Loyal Duck Business login. The standalone website preview does not authenticate anyone.'
-};
+/**
+ * Whitelist check to prevent open redirects
+ */
+function isAllowedHandoffUrl(urlStr: string): boolean {
+  try {
+    if (urlStr.startsWith('/') && !urlStr.startsWith('//')) {
+      return true;
+    }
+    const parsed = new URL(urlStr);
+    const allowedHosts = [
+      'localhost',
+      '127.0.0.1',
+      'app.loyalduck.com',
+      'business.loyalduck.pk',
+      'loyalduckpk.com',
+      'loyalduck.pk'
+    ];
+    if (allowedHosts.includes(parsed.hostname)) {
+      return true;
+    }
+    if (parsed.protocol === 'loyalduck-business:' || parsed.protocol === 'loyalduck:') {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
 
-export default function ConnectionDialog({ isOpen, onClose, destination = 'customerAppUrl' }: ConnectionDialogProps) {
+export default function ConnectionDialog({
+  isOpen,
+  onClose,
+  handoffUrl,
+  businessName
+}: ConnectionDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -48,6 +78,8 @@ export default function ConnectionDialog({ isOpen, onClose, destination = 'custo
 
   if (!isOpen) return null;
 
+  const hasValidHandoff = handoffUrl && isAllowedHandoffUrl(handoffUrl);
+
   return (
     <dialog
       ref={dialogRef}
@@ -74,19 +106,56 @@ export default function ConnectionDialog({ isOpen, onClose, destination = 'custo
         </button>
       </form>
 
-      <span className="eyebrow">DESIGN PREVIEW</span>
-      <h2 id="connection-title">The next stop<br /> is your app.</h2>
-      <p id="connection-copy">{dialogCopy[destination] || dialogCopy.customerAppUrl}</p>
-      <p className="dialog-note">No information has been sent or saved. The production button is connected through site-config.js.</p>
-      
-      <form method="dialog" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
-        <button className="button button-primary" type="button" onClick={onClose}>
-          Back to the good stuff 
-          <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M5 12h14m-6-6 6 6-6 6"/>
-          </svg>
-        </button>
-      </form>
+      {hasValidHandoff ? (
+        <>
+          <span className="eyebrow">DRAFT SAVED (72 HOURS)</span>
+          <h2 id="connection-title">Your setup is ready.<br />Confirm your details to start.</h2>
+          <p id="connection-copy">
+            Your setup draft has been stored securely for {businessName || 'your business'}. Continue to Loyal Duck Business to confirm your representative authority and activate your counter.
+          </p>
+          <p className="dialog-note">
+            Your anonymous handoff link is single-use and expires in 72 hours. No information is activated until confirmed in the app.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.25rem' }}>
+            <a
+              href={handoffUrl}
+              target="_self"
+              rel="noreferrer"
+              className="button button-primary"
+              style={{ textAlign: 'center', textDecoration: 'none' }}
+            >
+              Open Loyal Duck Business
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6"/>
+              </svg>
+            </a>
+            <button className="button button-quiet" type="button" onClick={onClose}>
+              Stay on this page
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <span className="eyebrow">SETUP SESSION</span>
+          <h2 id="connection-title">Link unavailable<br />or expired.</h2>
+          <p id="connection-copy">
+            This setup session could not be verified or has expired. Please restart your setup to generate a fresh, secure handoff link.
+          </p>
+          <p className="dialog-note">
+            Loyal Duck handoffs are single-use and valid for 72 hours to protect your business information.
+          </p>
+          
+          <form method="dialog" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
+            <button className="button button-primary" type="button" onClick={onClose}>
+              Restart setup 
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6"/>
+              </svg>
+            </button>
+          </form>
+        </>
+      )}
     </dialog>
   );
 }

@@ -25,16 +25,16 @@ export default function MerchantTermsPage() {
         </div>
       </section>
 
-      {/* Draft Banner */}
-      <div className="container legal-banner" data-legal-draft>
-        <strong>Legal-review draft · 19 September 2026.</strong> This page is a proposed presentation and wording, not a replacement for the currently approved policy or signed agreement. Confirm the final company, contact, retention and commercial terms before publishing.
+      {/* Active Starter Terms Banner */}
+      <div className="container legal-banner">
+        <strong>Active Starter Terms · Version 1.0 (Effective 20 September 2026).</strong> This guide explains the standard starter terms accepted electronically during self-service onboarding with <strong>COOPON PVT LTD, Pakistan</strong>.
       </div>
 
       {/* Summary */}
       <section className="container legal-summary">
         <span className="eyebrow">AT A GLANCE</span>
         <p>
-          Your authorised representative signs. Your business chooses and honours the rewards. Staff gets appropriate access. Paid campaigns are optional. Clear terms still matter.
+          Your authorised representative confirms authority. Your business chooses and honours the rewards. Staff gets appropriate counter access. Paid campaigns are optional. Clear terms still matter.
         </p>
       </section>
 
@@ -71,10 +71,10 @@ export default function MerchantTermsPage() {
             <span className="legal-number">02</span>
             <h2>A simple setup, with real checks</h2>
             <p>
-              The setup target is around five minutes for a straightforward loyalty programme after business approval. Application review, verification, agreement signing and activation are separate.
+              Basic loyalty setup starts online and activates immediately upon representative confirmation. You do not need to wait for routine manual reviews to start serving customers at your counter.
             </p>
             <p>
-              You do not need to build a loyalty app or replace your POS. You do need to provide accurate business information and have the right person accept the agreement.
+              You do not need to build a loyalty app or replace your POS. You do need to provide accurate business information and have an authorised representative confirm authority and starter terms. Public marketplace directory discovery and optional business trust marks require subsequent progressive control verification.
             </p>
           </section>
 

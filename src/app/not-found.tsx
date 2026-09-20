@@ -28,6 +28,12 @@ export default function NotFound() {
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
           </Link>
+          <Link className="button button-quiet" href="/business">
+            For business
+            <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14m-6-6 6 6-6 6" />
+            </svg>
+          </Link>
           <Link className="button button-quiet" href="/help">
             Get help
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

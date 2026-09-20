@@ -3,26 +3,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import ConnectionDialog, { DestinationType } from './ConnectionDialog';
+import { getDestinations } from '@/lib/destinations';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogDestination, setDialogDestination] = useState<DestinationType>('customerAppUrl');
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const destinations = getDestinations();
 
   const isBusiness = pathname.startsWith('/business') || 
                      pathname.startsWith('/start-business') || 
                      pathname.startsWith('/staff-guide') || 
                      pathname.startsWith('/merchant-terms') ||
                      pathname.startsWith('/campaigns');
-
-  const openDialog = (destination: DestinationType) => {
-    setDialogDestination(destination);
-    setDialogOpen(true);
-    setMobileMenuOpen(false);
-  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -87,16 +80,15 @@ export default function Navbar() {
 
           <div className="nav-actions">
             {isBusiness ? (
-              <button
+              <a
                 className="button button-small button-dark"
-                type="button"
-                onClick={() => openDialog('businessLoginUrl')}
+                href={destinations.businessLoginUrl}
               >
                 Business login
                 <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M6 18 18 6M6 6h12v12"/>
                 </svg>
-              </button>
+              </a>
             ) : (
               <Link className="button button-small button-dark" href="/get-started">
                 Get Loyal Duck
@@ -133,7 +125,8 @@ export default function Navbar() {
           <Link href="/help" onClick={() => setMobileMenuOpen(false)}>Help</Link>
           {isBusiness ? (
             <>
-              <Link href="/start-business" onClick={() => setMobileMenuOpen(false)}>Start-business planner</Link>
+              <Link href="/start-business" onClick={() => setMobileMenuOpen(false)}>Start your business</Link>
+              <a href={destinations.businessLoginUrl} onClick={() => setMobileMenuOpen(false)}>Business login</a>
               <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
               <Link href="/campaigns" onClick={() => setMobileMenuOpen(false)}>Offers & campaigns</Link>
               <Link href="/staff-guide" onClick={() => setMobileMenuOpen(false)}>Staff quick guide</Link>
@@ -147,12 +140,6 @@ export default function Navbar() {
           )}
         </nav>
       </header>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination={dialogDestination}
-      />
     </>
   );
 }

@@ -1,16 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import ConnectionDialog, { DestinationType } from './ConnectionDialog';
+import React from 'react';
+import Link from 'next/link';
 
 interface ClosingStripProps {
   variant?: 'customer' | 'business';
 }
 
 export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps) {
-  const [dialogOpen, setDialogOpen] = useState(false);
   const isBusiness = variant === 'business';
-  const destination: DestinationType = isBusiness ? 'businessOnboardingUrl' : 'customerAppUrl';
 
   return (
     <>
@@ -25,16 +23,21 @@ export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps
             </h2>
           </div>
           <div className="closing-action-wrap">
-            <button
-              className="button button-dark"
-              type="button"
-              onClick={() => setDialogOpen(true)}
-            >
-              {isBusiness ? 'Become a partner' : 'Get your Duck'}
-              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M6 18 18 6M6 6h12v12"/>
-              </svg>
-            </button>
+            {isBusiness ? (
+              <Link className="button button-dark" href="/start-business">
+                Start your programme
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M6 18 18 6M6 6h12v12"/>
+                </svg>
+              </Link>
+            ) : (
+              <Link className="button button-dark" href="/get-started">
+                Get your Duck
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6"/>
+                </svg>
+              </Link>
+            )}
             <div className="closing-mascot-anchor" aria-hidden="true">
               <img
                 src="/brand/duck-mascot.png"
@@ -45,12 +48,6 @@ export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps
           </div>
         </div>
       </section>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination={destination}
-      />
     </>
   );
 }

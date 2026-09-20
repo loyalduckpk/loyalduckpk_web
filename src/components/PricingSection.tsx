@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import ConnectionDialog from './ConnectionDialog';
+import React from 'react';
+import Link from 'next/link';
 
 export default function PricingSection() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <>
       <section className="section container pricing-section" id="start" aria-labelledby="pricing-title">
@@ -58,27 +56,20 @@ export default function PricingSection() {
               Activity and basic reporting
             </li>
           </ul>
-          <button
+          <Link
             className="button button-primary"
-            type="button"
-            onClick={() => setDialogOpen(true)}
+            href="/start-business"
           >
-            Become a partner
+            Start your free programme
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M6 18 18 6M6 6h12v12"/>
             </svg>
-          </button>
+          </Link>
           <p className="price-note">
-            First-location founding offer. Optional campaigns and physical kits are separate.
+            No Google listing required. No card needed to start. First-location founding offer. Optional campaigns and physical materials are separate.
           </p>
         </div>
       </section>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination="businessOnboardingUrl"
-      />
     </>
   );
 }

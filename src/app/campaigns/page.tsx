@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 type ToneType = 'simple' | 'friendly' | 'duck';
 
@@ -26,6 +27,7 @@ const toneSamples: Record<ToneType, MessageSample> = {
 };
 
 export default function CampaignsPage() {
+  const destinations = getDestinations();
   const [activeTone, setActiveTone] = useState<ToneType>('simple');
   const sample = toneSamples[activeTone];
 
@@ -245,12 +247,12 @@ export default function CampaignsPage() {
             <span className="eyebrow">BUSINESS GROWTH, WITHOUT THE SHOUTING.</span>
             <h2>Useful offer.<br />Respectful delivery.</h2>
           </div>
-          <Link className="button button-dark" href="/get-started">
+          <a className="button button-dark" href={destinations.businessLoginUrl}>
             Open Business
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
-          </Link>
+          </a>
         </div>
       </section>
     </div>

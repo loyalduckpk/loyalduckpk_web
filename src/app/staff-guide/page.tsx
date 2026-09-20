@@ -2,8 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 export default function StaffGuidePage() {
+  const destinations = getDestinations();
+
   const handlePrint = () => {
     if (typeof window !== 'undefined') {
       window.print();
@@ -26,12 +29,12 @@ export default function StaffGuidePage() {
             No new checkout system. No loyalty maths in your head. Just the right customer, the real purchase or visit, and a clear confirmation.
           </p>
           <div className="hero-buttons">
-            <Link className="button button-primary" href="/get-started">
+            <a className="button button-primary" href={destinations.businessLoginUrl}>
               Open Business login
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </Link>
+            </a>
             <button className="button button-quiet" type="button" onClick={handlePrint}>
               Print this guide
             </button>

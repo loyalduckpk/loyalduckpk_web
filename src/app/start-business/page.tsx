@@ -1,30 +1,209 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import ConnectionDialog from '@/components/ConnectionDialog';
+import { searchPlaces, getPlaceDetails, PlacePrediction } from '@/lib/places';
+import { telemetry } from '@/lib/telemetry';
+import { getBusinessAppBaseUrl } from '@/lib/destinations';
 
 type ProgramType = 'visits' | 'points';
+type OperatingModel = 'fixed' | 'mobile' | 'service_area';
 
 export default function StartBusinessPage() {
   const [step, setStep] = useState<number>(1);
+
+  // Business fields
   const [businessName, setBusinessName] = useState('');
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
+  const [operatingModel, setOperatingModel] = useState<OperatingModel>('fixed');
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
+
+  // Google Places autocomplete search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(-1);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showManualForm, setShowManualForm] = useState(true);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Initialize session telemetry on mount
+  useEffect(() => {
+    telemetry.startSession();
+  }, []);
+
+  // Reward fields
   const [program, setProgram] = useState<ProgramType>('visits');
   const [rewardName, setRewardName] = useState('');
   const [visitThreshold, setVisitThreshold] = useState('5');
   const [spendUnit, setSpendUnit] = useState('100');
   const [pointsCost, setPointsCost] = useState('500');
 
+  // UI status
   const [stepError, setStepError] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
   const [copyFallback, setCopyFallback] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [handoffUrl, setHandoffUrl] = useState('');
+
+  // Debounced search effect
+  useEffect(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    const trimmed = searchQuery.trim();
+    if (trimmed.length < 2) {
+      debounceTimerRef.current = setTimeout(() => {
+        setPredictions([]);
+        setActiveSuggestionIndex(-1);
+        setIsSearching(false);
+      }, 0);
+      return;
+    }
+
+    debounceTimerRef.current = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const result = await searchPlaces(trimmed);
+        setPredictions(result.predictions);
+        setActiveSuggestionIndex(-1);
+      } catch {
+        setPredictions([]);
+        setActiveSuggestionIndex(-1);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 350);
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [searchQuery]);
+
+  const handleSelectPlace = async (prediction: PlacePrediction) => {
+    setSelectedPlaceId(prediction.place_id);
+    setSearchQuery(prediction.primary_text);
+    setPredictions([]);
+    setActiveSuggestionIndex(-1);
+    setBusinessName(prediction.primary_text);
+    setShowManualForm(true);
+
+    telemetry.track('onboarding_search_selected', {
+      method: 'google_autocomplete',
+      place_id_present: true,
+    });
+
+    const details = await getPlaceDetails(prediction.place_id);
+    if (details) {
+      if (details.name) setBusinessName(details.name);
+      if (details.city) setCity(details.city);
+      if (details.formatted_address) setStreetAddress(details.formatted_address);
+    }
+  };
+
+  const handleManualEntryToggle = () => {
+    setSelectedPlaceId(null);
+    setShowManualForm(true);
+    telemetry.track('onboarding_search_selected', {
+      method: 'manual',
+      place_id_present: false,
+    });
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (predictions.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveSuggestionIndex((prev) => (prev < predictions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveSuggestionIndex((prev) => (prev > 0 ? prev - 1 : predictions.length - 1));
+    } else if (e.key === 'Enter') {
+      if (activeSuggestionIndex >= 0 && activeSuggestionIndex < predictions.length) {
+        e.preventDefault();
+        handleSelectPlace(predictions[activeSuggestionIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      setPredictions([]);
+      setActiveSuggestionIndex(-1);
+    }
+  };
+
+  const handleContinueToBusiness = async () => {
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    telemetry.track('onboarding_handoff_initiated', {
+      operating_model: operatingModel,
+      program_type: program,
+    });
+
+    try {
+      const res = await fetch('/api/onboarding/draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          business_name: businessName,
+          category,
+          city: city || 'Lahore',
+          street_address: streetAddress.trim() || undefined,
+          place_id: selectedPlaceId || undefined,
+          operating_model: operatingModel,
+          program_type: program,
+          reward_name: rewardName,
+          visit_threshold: program === 'visits' ? Number(visitThreshold) : undefined,
+          spend_unit_cents: program === 'points' ? Number(spendUnit) * 100 : undefined,
+          points_cost: program === 'points' ? Number(pointsCost) : undefined,
+          provenance: 'website_wizard',
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to save setup draft.');
+      }
+
+      telemetry.track('onboarding_handoff_completed', {
+        status: 'success',
+        duration_ms: telemetry.getDurationMs(),
+      });
+
+      const businessBase = getBusinessAppBaseUrl();
+      const baseUrl = `${businessBase}/onboarding`;
+      const targetUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}handoff=${encodeURIComponent(
+        data.handoff_token
+      )}`;
+      setHandoffUrl(targetUrl);
+      setDialogOpen(true);
+    } catch (err: unknown) {
+      console.error('Draft handoff error:', err);
+      const msg =
+        err instanceof Error
+          ? err.message
+          : 'Could not save draft. You can copy your plan below.';
+      setSubmitError(msg);
+      telemetry.track('onboarding_handoff_failed', {
+        status: 'failed',
+        reason_code: 'draft_save_error',
+        duration_ms: telemetry.getDurationMs(),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const validateStep1 = () => {
     if (!businessName.trim() || !category || !city.trim()) {
-      setStepError('Please complete all fields with valid details.');
+      setStepError('Please enter your business trading name, type, and city.');
       return false;
     }
     setStepError('');
@@ -36,11 +215,17 @@ export default function StartBusinessPage() {
       setStepError('Please enter what reward customers receive.');
       return false;
     }
-    if (program === 'points') {
+    if (program === 'visits') {
+      const v = Number(visitThreshold);
+      if (!v || v < 2) {
+        setStepError('Visit threshold must be at least 2.');
+        return false;
+      }
+    } else if (program === 'points') {
       const unit = Number(spendUnit);
       const cost = Number(pointsCost);
-      if (!unit || unit < 1 || !cost || cost < 1) {
-        setStepError('Please specify valid amounts for points calculation.');
+      if (!unit || unit < 10 || !cost || cost < 50) {
+        setStepError('Points require at least Rs 10 per point and 50 points to redeem.');
         return false;
       }
     }
@@ -50,9 +235,22 @@ export default function StartBusinessPage() {
 
   const handleNext = () => {
     if (step === 1) {
-      if (validateStep1()) setStep(2);
+      if (validateStep1()) {
+        if (!selectedPlaceId) {
+          telemetry.track('onboarding_search_selected', {
+            method: 'manual',
+            place_id_present: false,
+          });
+        }
+        setStep(2);
+      }
     } else if (step === 2) {
-      if (validateStep2()) setStep(3);
+      if (validateStep2()) {
+        telemetry.track('onboarding_reward_configured', {
+          program_type: program,
+        });
+        setStep(3);
+      }
     }
   };
 
@@ -74,19 +272,20 @@ export default function StartBusinessPage() {
   const generatedSummaryText = `Loyal Duck programme draft
 Business: ${businessName.trim() || 'Your place'}
 Category: ${category || 'Unspecified'}
+Operating Model: ${operatingModel}
 City: ${city.trim() || 'Unspecified'}
 Programme: ${program}
 ${ruleSummary}
 ${rewardDetail}
-Planning only. Not submitted or activated.`;
+Planning only. Real activation happens in Loyal Duck Business.`;
 
   const handleCopy = async () => {
     try {
       if (!navigator.clipboard) throw new Error('Clipboard unavailable');
       await navigator.clipboard.writeText(generatedSummaryText);
-      setCopyStatus('Plan copied. Paste it into your own notes or onboarding. Nothing was submitted.');
+      setCopyStatus('Plan copied to clipboard. You can paste it into your notes.');
       setCopyFallback(false);
-    } catch (_) {
+    } catch {
       setCopyStatus('Clipboard access is unavailable. Select and copy this plan:');
       setCopyFallback(true);
     }
@@ -101,14 +300,14 @@ Planning only. Not submitted or activated.`;
             <span className="label-dash"></span>START YOUR FIRST LOCATION
           </span>
           <h1>
-            Five-minute setup.<br />
-            <span className="cobalt">Properly simple.</span>
+            Your business.<br />
+            <span className="cobalt">Your first reward.</span>
           </h1>
           <p className="lead">
-            That’s the target for configuring a straightforward programme once you’re approved. Pick how customers earn, choose a reward and get your team ready.
+            Find your business or add it yourself. Choose a simple reward, confirm your details and start your programme.
           </p>
           <p className="fineprint">
-            Business application review, agreement signing and activation happen separately. Setup time varies with your details.
+            No Google listing required. No card needed to start.
           </p>
         </div>
 
@@ -116,7 +315,7 @@ Planning only. Not submitted or activated.`;
         <div className="setup-card" id="setup">
           <div className="paper-top">
             <span className="eyebrow">PLAN YOUR FIRST PROGRAMME</span>
-            <span className="pill">LOCAL PREVIEW</span>
+            <span className="pill">STARTER SETUP</span>
           </div>
 
           <div className="wizard-progress" aria-label="Setup progress">
@@ -132,58 +331,212 @@ Planning only. Not submitted or activated.`;
           </div>
 
           <form id="setup-form" onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
-            {/* Step 1 */}
+            {/* Step 1: Your place */}
             {step === 1 && (
               <fieldset data-step="1">
                 <legend>Your place. The basics.</legend>
-                <div className="field">
-                  <label htmlFor="business-name">Business name</label>
+
+                {/* Google Places Search with Autocomplete */}
+                <div className="field" style={{ position: 'relative' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <label htmlFor="google-search">Search on Google (Optional)</label>
+                    <button
+                      type="button"
+                      className="inline-link"
+                      style={{ fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                      onClick={handleManualEntryToggle}
+                    >
+                      Not on Google? Add your business
+                    </button>
+                  </div>
                   <input
-                    id="business-name"
-                    name="business_name"
-                    autoComplete="organization"
-                    maxLength={90}
-                    required
-                    placeholder="The name above your door"
-                    value={businessName}
-                    onChange={(e) => { setBusinessName(e.target.value); setStepError(''); }}
+                    id="google-search"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded={predictions.length > 0}
+                    aria-controls="google-search-predictions"
+                    aria-activedescendant={
+                      activeSuggestionIndex >= 0 ? `place-suggestion-${activeSuggestionIndex}` : undefined
+                    }
+                    placeholder="Search by business name or area..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleSearchKeyDown}
+                    autoComplete="off"
                   />
+                  {isSearching && (
+                    <span className="fineprint" style={{ color: 'var(--cobalt)', marginTop: '4px' }}>
+                      Searching Google Places...
+                    </span>
+                  )}
+
+                  {predictions.length > 0 && (
+                    <div
+                      id="google-search-predictions"
+                      role="listbox"
+                      aria-label="Google Places suggestions"
+                      style={{
+                        position: 'relative',
+                        zIndex: 10,
+                        background: 'white',
+                        border: '1px solid var(--line)',
+                        borderRadius: '10px',
+                        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+                        marginTop: '4px',
+                        marginBottom: '16px',
+                        maxHeight: '220px',
+                        overflowY: 'auto',
+                      }}
+                    >
+                      {predictions.map((p, idx) => (
+                        <button
+                          key={p.place_id}
+                          id={`place-suggestion-${idx}`}
+                          role="option"
+                          aria-selected={activeSuggestionIndex === idx}
+                          type="button"
+                          style={{
+                            width: '100%',
+                            textAlign: 'left',
+                            padding: '10px 14px',
+                            minHeight: '48px',
+                            border: 'none',
+                            borderBottom: '1px solid var(--line)',
+                            background: activeSuggestionIndex === idx ? 'var(--paper)' : 'transparent',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            gap: '2px',
+                          }}
+                          onClick={() => handleSelectPlace(p)}
+                        >
+                          <strong style={{ fontSize: '14px', color: 'var(--ink)' }}>{p.primary_text}</strong>
+                          <span style={{ fontSize: '12px', color: 'var(--muted)' }}>{p.secondary_text}</span>
+                        </button>
+                      ))}
+                      <div style={{ padding: '6px 14px', fontSize: '11px', color: 'var(--muted)', textAlign: 'right' }}>
+                        Powered by Google
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="field-pair">
-                  <div className="field">
-                    <label htmlFor="business-category">Type of business</label>
-                    <select
-                      id="business-category"
-                      name="category"
-                      required
-                      value={category}
-                      onChange={(e) => { setCategory(e.target.value); setStepError(''); }}
-                    >
-                      <option value="">Choose one</option>
-                      <option>Café</option>
-                      <option>Restaurant</option>
-                      <option>Salon / barber</option>
-                      <option>Retail</option>
-                      <option>Car wash</option>
-                      <option>Bakery / dessert</option>
-                      <option>Other service</option>
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="business-city">City</label>
-                    <input
-                      id="business-city"
-                      name="city"
-                      maxLength={80}
-                      autoComplete="address-level2"
-                      required
-                      placeholder="Your city"
-                      value={city}
-                      onChange={(e) => { setCity(e.target.value); setStepError(''); }}
-                    />
-                  </div>
-                </div>
+                {/* Merchant-Owned Business Details */}
+                {showManualForm && (
+                  <>
+                    <div className="field">
+                      <label htmlFor="business-name">Trading Name *</label>
+                      <input
+                        id="business-name"
+                        name="business_name"
+                        autoComplete="organization"
+                        maxLength={90}
+                        required
+                        placeholder="The name above your door or truck"
+                        value={businessName}
+                        onChange={(e) => { setBusinessName(e.target.value); setStepError(''); }}
+                      />
+                    </div>
+
+                    <div className="field-pair">
+                      <div className="field">
+                        <label htmlFor="business-category">Category *</label>
+                        <select
+                          id="business-category"
+                          name="category"
+                          required
+                          value={category}
+                          onChange={(e) => { setCategory(e.target.value); setStepError(''); }}
+                        >
+                          <option value="">Choose one</option>
+                          <option>Café</option>
+                          <option>Restaurant</option>
+                          <option>Salon / barber</option>
+                          <option>Retail</option>
+                          <option>Car wash</option>
+                          <option>Bakery / dessert</option>
+                          <option>Other service</option>
+                        </select>
+                      </div>
+                      <div className="field">
+                        <label htmlFor="business-city">City or Area *</label>
+                        <input
+                          id="business-city"
+                          name="city"
+                          maxLength={80}
+                          autoComplete="address-level2"
+                          required
+                          placeholder="e.g. Lahore, Gulberg"
+                          value={city}
+                          onChange={(e) => { setCity(e.target.value); setStepError(''); }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Operating Model Selector */}
+                    <div className="field">
+                      <label>Operating Model *</label>
+                      <div className="choice-pair" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                        <label className="choice-tile" style={{ padding: '10px 8px' }}>
+                          <input
+                            type="radio"
+                            name="operating_model"
+                            value="fixed"
+                            checked={operatingModel === 'fixed'}
+                            onChange={() => setOperatingModel('fixed')}
+                          />
+                          <span>
+                            <strong style={{ fontSize: '13px' }}>Fixed</strong>
+                            Storefront
+                          </span>
+                        </label>
+                        <label className="choice-tile" style={{ padding: '10px 8px' }}>
+                          <input
+                            type="radio"
+                            name="operating_model"
+                            value="mobile"
+                            checked={operatingModel === 'mobile'}
+                            onChange={() => setOperatingModel('mobile')}
+                          />
+                          <span>
+                            <strong style={{ fontSize: '13px' }}>Mobile</strong>
+                            Food truck
+                          </span>
+                        </label>
+                        <label className="choice-tile" style={{ padding: '10px 8px' }}>
+                          <input
+                            type="radio"
+                            name="operating_model"
+                            value="service_area"
+                            checked={operatingModel === 'service_area'}
+                            onChange={() => setOperatingModel('service_area')}
+                          />
+                          <span>
+                            <strong style={{ fontSize: '13px' }}>Service</strong>
+                            On-site / Home
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="field">
+                      <label htmlFor="street-address">
+                        {operatingModel === 'fixed'
+                          ? 'Street Address / Landmark (Optional)'
+                          : 'Operating Base / Landmark (Optional)'}
+                      </label>
+                      <input
+                        id="street-address"
+                        name="street_address"
+                        maxLength={120}
+                        placeholder="e.g. Shop 4, Commercial Market"
+                        value={streetAddress}
+                        onChange={(e) => setStreetAddress(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
 
                 {stepError && <p className="inline-error" role="alert">{stepError}</p>}
 
@@ -193,7 +546,7 @@ Planning only. Not submitted or activated.`;
               </fieldset>
             )}
 
-            {/* Step 2 */}
+            {/* Step 2: Your reward */}
             {step === 2 && (
               <fieldset data-step="2">
                 <legend>How do you reward regulars?</legend>
@@ -227,7 +580,7 @@ Planning only. Not submitted or activated.`;
                 </div>
 
                 <div className="field">
-                  <label htmlFor="reward-name">What is the reward?</label>
+                  <label htmlFor="reward-name">What is the reward? *</label>
                   <input
                     id="reward-name"
                     name="reward_name"
@@ -263,7 +616,7 @@ Planning only. Not submitted or activated.`;
                         name="spend_unit"
                         inputMode="numeric"
                         type="number"
-                        min="1"
+                        min="10"
                         max="100000"
                         value={spendUnit}
                         onChange={(e) => setSpendUnit(e.target.value)}
@@ -276,7 +629,7 @@ Planning only. Not submitted or activated.`;
                         name="points_cost"
                         inputMode="numeric"
                         type="number"
-                        min="1"
+                        min="50"
                         max="1000000"
                         value={pointsCost}
                         onChange={(e) => setPointsCost(e.target.value)}
@@ -284,6 +637,10 @@ Planning only. Not submitted or activated.`;
                     </div>
                   </div>
                 )}
+
+                <p className="fineprint">
+                  Setup rules are validated by the server upon activation. You can adjust limits in Settings anytime.
+                </p>
 
                 {stepError && <p className="inline-error" role="alert">{stepError}</p>}
 
@@ -298,31 +655,44 @@ Planning only. Not submitted or activated.`;
               </fieldset>
             )}
 
-            {/* Step 3 */}
+            {/* Step 3: Ready & Connected Handoff */}
             {step === 3 && (
               <fieldset data-step="3">
                 <legend>Simple looks good on you.</legend>
                 <div className="setup-preview">
                   <span className="eyebrow">{category ? `YOUR ${category.toUpperCase()}` : 'YOUR BUSINESS'}</span>
                   <h3>{businessName.trim() || 'Your place'}</h3>
-                  <p>{city.trim() || 'Your city'}</p>
+                  <p>{city.trim() || 'Your city'} {operatingModel !== 'fixed' && `(${operatingModel})`}</p>
                   <div className="ticket-rule"></div>
                   <strong className="programme-summary">{ruleSummary}</strong>
                   <p>{rewardDetail}</p>
                 </div>
 
-                <p className="fineprint">
-                  This is a planning preview—not a submitted application or an active programme. No information is saved or sent. Copy your plan, then continue through the existing Business onboarding flow.
-                </p>
+                <div style={{ marginTop: '1.25rem' }}>
+                  <span className="eyebrow" style={{ color: 'var(--cobalt)' }}>READY TO START</span>
+                  <h4 style={{ fontSize: '18px', fontWeight: '700', marginTop: '4px', marginBottom: '8px' }}>
+                    Your setup is ready. Confirm your details to start.
+                  </h4>
+                  <p className="fineprint">
+                    Your setup plan is saved securely as a 72-hour draft so you can finish in Loyal Duck Business without retyping. Read our{' '}
+                    <Link href="/privacy" className="inline-link">privacy information</Link>.
+                  </p>
+                </div>
 
                 <div className="form-buttons">
-                  <button type="button" className="button button-quiet" onClick={handlePrev}>
+                  <button type="button" className="button button-quiet" onClick={handlePrev} disabled={isSubmitting}>
                     ← Edit
                   </button>
                   <button type="button" className="button button-dark" onClick={handleCopy}>
                     Copy my plan
                   </button>
                 </div>
+
+                {submitError && (
+                  <p className="inline-error" role="alert" style={{ marginTop: '0.75rem' }}>
+                    {submitError}
+                  </p>
+                )}
 
                 {copyStatus && (
                   <p className="form-status" role="status" aria-live="polite">
@@ -346,9 +716,12 @@ Planning only. Not submitted or activated.`;
                   type="button"
                   className="button button-primary"
                   style={{ marginTop: '1.25rem' }}
-                  onClick={() => setDialogOpen(true)}
+                  disabled={isSubmitting}
+                  onClick={handleContinueToBusiness}
                 >
-                  Continue to Business onboarding
+                  {isSubmitting
+                    ? 'Saving your plan...'
+                    : 'Continue to Business onboarding'}
                   <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg>
@@ -370,28 +743,28 @@ Planning only. Not submitted or activated.`;
             <span className="eyebrow">CLEAR TERMS. SMALL STEPS.</span>
             <h2>A proper agreement.<br />Not a paperwork maze.</h2>
           </div>
-          <p>We explain the responsibilities before you sign. Your authorised owner or representative completes the merchant agreement; cashiers accept their own short use policy.</p>
+          <p>We explain the responsibilities before you start. Your authorised owner or representative confirms authority; cashiers accept their short conduct policy.</p>
         </div>
         <div className="editorial-steps">
           <article>
             <span className="step-no">01</span>
             <div>
-              <h3>Apply with your business details.</h3>
-              <p>Your name, location, business type and an authorised contact are the starting point. Follow the existing application for any required verification.</p>
+              <h3>Plan your basic reward.</h3>
+              <p>Search your business or add it manually. Choose visits or points, set a starter reward, and preview your customer card.</p>
             </div>
           </article>
           <article>
             <span className="step-no">02</span>
             <div>
-              <h3>Review and sign.</h3>
-              <p>Loyal Duck reviews the application. Your authorised signatory reads and signs the agreement. A website preview does not activate a business.</p>
+              <h3>Confirm your account.</h3>
+              <p>Continue into Loyal Duck Business with your saved draft. Sign in with one verified contact and confirm your representative authority.</p>
             </div>
           </article>
           <article>
             <span className="step-no">03</span>
             <div>
-              <h3>Set the reward. Invite the team.</h3>
-              <p>Once activated, choose points or visits, set your own reward, and invite staff. Put your merchant QR where customers can see it.</p>
+              <h3>Serve your first customer.</h3>
+              <p>Your counter is live immediately upon confirmation. Scan customer Duck IDs, issue stamps, and invite your staff.</p>
             </div>
           </article>
         </div>
@@ -423,6 +796,8 @@ Planning only. Not submitted or activated.`;
         isOpen={dialogOpen}
         onClose={() => setDialogOpen(false)}
         destination="businessOnboardingUrl"
+        handoffUrl={handoffUrl}
+        businessName={businessName}
       />
     </div>
   );

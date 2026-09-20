@@ -1,12 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import ConnectionDialog from '@/components/ConnectionDialog';
 
 export default function DeleteAccountPage() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <div className="support-page">
       {/* Page Hero */}
@@ -32,22 +29,21 @@ export default function DeleteAccountPage() {
         </div>
 
         {/* Deletion Entry Aside */}
-        <aside className="deletion-entry">
+        <aside className="deletion-entry" id="procedures">
           <span className="eyebrow">REQUEST ACCOUNT DELETION</span>
           <h2>Start with an<br />identity check.</h2>
           <p>
             Continue to the existing secure deletion flow. Only the verified account holder can authorise the request.
           </p>
-          <button
+          <a
             className="button button-dark"
-            type="button"
-            onClick={() => setDialogOpen(true)}
+            href="mailto:privacy@loyalduck.com?subject=Account%20Deletion%20Request"
           >
-            Request deletion on the web
+            Email privacy officer
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
-          </button>
+          </a>
           <p className="fineprint">
             You will continue to the current Loyal Duck deletion service. This website does not collect your password or SMS verification code.
           </p>
@@ -195,12 +191,6 @@ export default function DeleteAccountPage() {
           </details>
         </div>
       </section>
-
-      <ConnectionDialog
-        isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        destination="customerAppUrl"
-      />
     </div>
   );
 }

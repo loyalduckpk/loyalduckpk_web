@@ -75,6 +75,22 @@ const faqSchema = {
         text: 'Open the customer app settings or use the public account deletion request page at https://loyalduck.pk/delete-account.',
       },
     },
+    {
+      '@type': 'Question',
+      name: 'Is a Google listing required for my business to start?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Google listing is completely optional. Unlisted shops, food stalls, home businesses and mobile food trucks can start basic loyalty without a Google Place ID or upfront payment.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How quickly can I set up a programme?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Basic loyalty setup starts online and activates immediately when you confirm your representative authority in Loyal Duck Business. No setup payment or manual review delays.',
+      },
+    },
   ],
 };
 

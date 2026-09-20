@@ -34,9 +34,9 @@ export default function FaqSection({ variant = 'customer' }: FaqSectionProps) {
             </div>
           </details>
           <details>
-            <summary>What happens after I apply?<span className="faq-symbol" aria-hidden="true">+</span></summary>
+            <summary>How do I start and activate my business?<span className="faq-symbol" aria-hidden="true">+</span></summary>
             <div className="faq-answer">
-              <p>Your application is reviewed, your authorised signatory completes the merchant agreement, and your business is activated. You can then finish programme setup and invite your team.</p>
+              <p>Start in a few simple steps online, set your basic reward, and confirm your details in Loyal Duck Business. No Google listing is required, no card is needed to start, and unlisted or mobile businesses can start right away. An authorised representative confirms their authority and your counter goes live immediately. Extra verification and optional growth features come later when relevant.</p>
             </div>
           </details>
           <details>

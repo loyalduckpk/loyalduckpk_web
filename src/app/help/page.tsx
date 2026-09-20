@@ -112,7 +112,7 @@ const helpItems: HelpItem[] = [
     id: 'answer-15',
     category: 'business',
     question: 'How quickly can I set up a programme?',
-    answer: 'A straightforward programme has a setup target of around five minutes after business approval. Application review, signing and activation are separate steps.',
+    answer: 'Basic loyalty setup starts online and activates immediately when you confirm your representative authority in Loyal Duck Business. No setup payment or manual review delays.',
   },
   {
     id: 'answer-16',
@@ -134,18 +134,42 @@ const helpItems: HelpItem[] = [
   },
   {
     id: 'answer-19',
+    category: 'getting-started',
+    question: 'How do I resume an unfinished business setup?',
+    answer: 'Your website setup draft is saved for 72 hours. You can continue using the saved handoff link, or start again at /start-business with the same details without duplicate creation.',
+  },
+  {
+    id: 'answer-20',
+    category: 'business',
+    question: 'Is a Google listing required for my business?',
+    answer: 'No. A Google listing is completely optional. Unlisted shops, food stalls, home businesses and mobile food trucks can start basic loyalty without a Google Place ID or upfront payment.',
+  },
+  {
+    id: 'answer-21',
+    category: 'business',
+    question: 'Can I use my customer phone login to access the counter?',
+    answer: 'No. Customer and business access are separate. Cashiers, managers and owners log in through Loyal Duck Business with individual business credentials and permissions.',
+  },
+  {
+    id: 'answer-22',
+    category: 'business',
+    question: 'When do extra verification and directory listing happen?',
+    answer: 'Basic counter loyalty activates immediately upon representative confirmation. Extra verification (like public location/contact proof, domain challenges or business documents) happens later in Business settings when you want public marketplace directory discovery.',
+  },
+  {
+    id: 'answer-23',
     category: 'campaigns',
     question: 'Why is my campaign waiting for review?',
     answer: 'Loyal Duck reviews the message and linked offer before sending is available. Check the campaign status in Business for changes needed or the next step.',
   },
   {
-    id: 'answer-20',
+    id: 'answer-24',
     category: 'campaigns',
     question: 'Can I message everyone on Loyal Duck?',
     answer: 'No. Campaigns target your own eligible, opted-in merchant customers. You do not get other businesses’ customer lists or unrestricted messaging access.',
   },
   {
-    id: 'answer-21',
+    id: 'answer-25',
     category: 'campaigns',
     question: 'I paid, but the campaign has not sent.',
     answer: 'Check its approval, payment, schedule and promotion status. Contact support with the campaign reference. Do not pay again or create another campaign to force the send.',

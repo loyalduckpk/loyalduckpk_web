@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Start for Business \u00b7 Merchant Launch Application",
-  description: "Apply to launch Loyal Duck at your business. Setup digital stamp cards, customer retention, and automated rewards.",
+  title: "Start for Business · Self-Service Loyalty Setup",
+  description: "Set up your basic loyalty programme on Loyal Duck. Find your business, choose visits or points, and start serving customers at your counter.",
   alternates: {
     canonical: "/start-business",
   },
   openGraph: {
-    title: "Start for Business \u00b7 Merchant Launch Application",
-    description: "Apply to launch Loyal Duck at your business. Setup digital stamp cards, customer retention, and automated rewards.",
+    title: "Start for Business · Self-Service Loyalty Setup",
+    description: "Set up your basic loyalty programme on Loyal Duck. Find your business, choose visits or points, and start serving customers at your counter.",
     url: 'https://loyalduck.pk/start-business',
   },
 };
