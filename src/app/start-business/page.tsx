@@ -21,6 +21,11 @@ export default function StartBusinessPage() {
   const [operatingModel, setOperatingModel] = useState<OperatingModel>('fixed');
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
 
+  // Representative / Owner Account fields
+  const [representativeName, setRepresentativeName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   // Google Places autocomplete search state
   const [searchQuery, setSearchQuery] = useState('');
   const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
@@ -142,6 +147,19 @@ export default function StartBusinessPage() {
     setIsSubmitting(true);
     setSubmitError('');
 
+    const cleanEmail = contactEmail.trim().toLowerCase();
+    if (cleanEmail && !cleanEmail.includes('@')) {
+      setSubmitError('Please enter a valid business email address.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (password && password.length < 6) {
+      setSubmitError('Password must be at least 6 characters.');
+      setIsSubmitting(false);
+      return;
+    }
+
     telemetry.track('onboarding_handoff_initiated', {
       operating_model: operatingModel,
       program_type: program,
@@ -170,6 +188,9 @@ export default function StartBusinessPage() {
           spend_unit_cents: program === 'points' ? Number(spendUnit) * 100 : undefined,
           points_cost: program === 'points' ? Number(pointsCost) : undefined,
           provenance: 'website_wizard',
+          contact_email: cleanEmail || undefined,
+          representative_name: representativeName.trim() || undefined,
+          password: password || undefined,
         }),
       });
 
@@ -187,9 +208,10 @@ export default function StartBusinessPage() {
 
       const businessBase = getBusinessAppBaseUrl();
       const baseUrl = `${businessBase}/onboarding`;
+      const emailParam = cleanEmail ? `&email=${encodeURIComponent(cleanEmail)}` : '';
       const targetUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}handoff=${encodeURIComponent(
         data.handoff_token
-      )}`;
+      )}${emailParam}`;
       setHandoffUrl(targetUrl);
       setDialogOpen(true);
     } catch (err: unknown) {
@@ -690,7 +712,53 @@ ${handoffUrl ? `Handoff Link (72h): ${handoffUrl}\n` : ''}Planning only. Real ac
                   </p>
                 </div>
 
-                <div className="form-buttons">
+                {/* Representative Account & Common Identifier */}
+                <div style={{ marginTop: '1.25rem', padding: '16px', borderRadius: '12px', background: 'var(--paper)', border: '1px solid var(--line)' }}>
+                  <span className="eyebrow" style={{ color: 'var(--cobalt)', marginBottom: '6px', display: 'block' }}>REPRESENTATIVE CONSOLE ACCESS</span>
+                  <div className="field">
+                    <label htmlFor="owner-email">Business or Representative Email</label>
+                    <input
+                      id="owner-email"
+                      name="owner_email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="e.g. owner@elclassico.com"
+                      value={contactEmail}
+                      onChange={(e) => { setContactEmail(e.target.value); setSubmitError(''); }}
+                    />
+                    <span className="fineprint" style={{ marginTop: '4px' }}>
+                      This email serves as your common identifier across the web portal and business console.
+                    </span>
+                  </div>
+
+                  <div className="field-pair" style={{ marginTop: '12px' }}>
+                    <div className="field">
+                      <label htmlFor="owner-name">Full Name (Optional)</label>
+                      <input
+                        id="owner-name"
+                        name="owner_name"
+                        autoComplete="name"
+                        placeholder="e.g. Muhammad Faizan"
+                        value={representativeName}
+                        onChange={(e) => setRepresentativeName(e.target.value)}
+                      />
+                    </div>
+                    <div className="field">
+                      <label htmlFor="owner-password">Choose Password (Optional)</label>
+                      <input
+                        id="owner-password"
+                        name="owner_password"
+                        type="password"
+                        autoComplete="new-password"
+                        placeholder="At least 6 characters"
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setSubmitError(''); }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-buttons" style={{ marginTop: '1.25rem' }}>
                   <button type="button" className="button button-quiet" onClick={handlePrev} disabled={isSubmitting}>
                     ← Edit
                   </button>
@@ -742,7 +810,7 @@ ${handoffUrl ? `Handoff Link (72h): ${handoffUrl}\n` : ''}Planning only. Real ac
           </form>
 
           <p className="fineprint">
-            No password, ID document, signature or payment is collected on this page.
+            No ID document, physical paperwork, or upfront payment is required to start your programme.
           </p>
         </div>
       </section>

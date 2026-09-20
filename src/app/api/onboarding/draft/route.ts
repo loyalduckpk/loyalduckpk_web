@@ -13,6 +13,9 @@ interface SaveDraftBody {
   spend_unit_cents?: number | null;
   points_cost?: number | null;
   provenance?: string;
+  contact_email?: string | null;
+  representative_name?: string | null;
+  password?: string | null;
 }
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://aglngbhdzaftetvxqrch.supabase.co';
@@ -44,6 +47,31 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const cleanEmail = body.contact_email?.trim() ? body.contact_email.trim().toLowerCase() : null;
+
+    // 2. If password provided alongside email, provision the merchant representative account in Supabase Auth
+    if (cleanEmail && body.password && body.password.length >= 6) {
+      try {
+        await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({
+            email: cleanEmail,
+            password: body.password,
+            data: {
+              display_name: body.representative_name?.trim() || body.business_name.trim(),
+            },
+          }),
+          signal: AbortSignal.timeout(4000),
+        });
+      } catch (authErr) {
+        console.warn('Optional auth signup warning (will proceed with draft):', authErr);
+      }
+    }
+
     const payload = {
       p_business_name: body.business_name.trim().slice(0, 90),
       p_category: body.category.trim().slice(0, 60),
@@ -57,9 +85,10 @@ export async function POST(req: NextRequest) {
       p_spend_unit_cents: body.spend_unit_cents || null,
       p_points_cost: body.points_cost || null,
       p_provenance: body.provenance || 'website_wizard',
+      p_contact_email: cleanEmail,
     };
 
-    // 2. Call Supabase save_onboarding_draft RPC with 5s timeout
+    // 3. Call Supabase save_onboarding_draft RPC with 5s timeout
     const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/save_onboarding_draft`, {
       method: 'POST',
       headers: {
@@ -82,13 +111,14 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
 
-    // 3. Return draft handle
+    // 4. Return draft handle and confirmed contact email
     return NextResponse.json(
       {
         success: true,
         draft_id: data.draft_id,
         handoff_token: data.handoff_token,
         expires_at: data.expires_at,
+        contact_email: cleanEmail,
       },
       { headers: NO_INDEX_HEADERS }
     );
