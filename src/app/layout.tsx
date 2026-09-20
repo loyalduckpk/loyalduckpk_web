@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import RouteScrollManager from '@/components/RouteScrollManager';
 import './globals.css';
 
 const jakarta = Plus_Jakarta_Sans({
@@ -9,6 +10,8 @@ const jakarta = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-jakarta',
   display: 'swap',
+  adjustFontFallback: true,
+  preload: true,
 });
 
 const siteUrl = 'https://loyalduck.pk';
@@ -131,14 +134,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
+    <html lang="en" className={jakarta.variable}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body id="top" className="font-sans antialiased min-h-screen flex flex-col">
+      <body id="top" className={`${jakarta.className} font-sans antialiased min-h-screen flex flex-col`}>
+        <RouteScrollManager />
         <a className="skip-link" href="#main">
           Skip to content
         </a>

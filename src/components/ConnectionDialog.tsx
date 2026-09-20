@@ -61,34 +61,63 @@ export default function ConnectionDialog({
     }
   };
 
+  const handleClose = () => {
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('dialog-open');
+      document.body.style.overflow = '';
+    }
+    onClose();
+  };
+
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
     if (isOpen) {
       if (!dialog.open) {
-        dialog.showModal();
+        try {
+          dialog.showModal();
+        } catch {
+          // Dialog might already be showing
+        }
         document.body.classList.add('dialog-open');
       }
     } else {
       if (dialog.open) {
-        dialog.close();
-        document.body.classList.remove('dialog-open');
+        try {
+          dialog.close();
+        } catch {
+          // Dialog might already be closed
+        }
       }
+      document.body.classList.remove('dialog-open');
+      document.body.style.overflow = '';
     }
+
+    return () => {
+      if (dialog && dialog.open) {
+        try {
+          dialog.close();
+        } catch {
+          // Ignored on teardown
+        }
+      }
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('dialog-open');
+        document.body.style.overflow = '';
+      }
+    };
   }, [isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose();
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
+  }, [isOpen]);
 
   const hasValidHandoff = handoffUrl && isAllowedHandoffUrl(handoffUrl);
 
@@ -97,6 +126,7 @@ export default function ConnectionDialog({
       ref={dialogRef}
       id="connection-dialog"
       aria-labelledby="connection-title"
+      hidden={!isOpen}
       onClick={(e) => {
         const rect = dialogRef.current?.getBoundingClientRect();
         if (
@@ -106,12 +136,12 @@ export default function ConnectionDialog({
             e.clientY < rect.top ||
             e.clientY > rect.bottom)
         ) {
-          onClose();
+          handleClose();
         }
       }}
     >
-      <form method="dialog" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
-        <button className="dialog-close icon-button" type="button" onClick={onClose} aria-label="Close dialog">
+      <form method="dialog" onSubmit={(e) => { e.preventDefault(); handleClose(); }}>
+        <button className="dialog-close icon-button" type="button" onClick={handleClose} aria-label="Close dialog">
           <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="m6 6 12 12M18 6 6 18"/>
           </svg>
@@ -152,7 +182,7 @@ export default function ConnectionDialog({
               {copied ? '✓ Setup Link Copied!' : 'Copy Setup Link (72h)'}
             </button>
 
-            <button className="button button-quiet" type="button" onClick={onClose}>
+            <button className="button button-quiet" type="button" onClick={handleClose}>
               Stay on this page
             </button>
           </div>
@@ -168,8 +198,8 @@ export default function ConnectionDialog({
             Loyal Duck handoffs are single-use and valid for 72 hours to protect your business information.
           </p>
           
-          <form method="dialog" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
-            <button className="button button-primary" type="button" onClick={onClose}>
+          <form method="dialog" onSubmit={(e) => { e.preventDefault(); handleClose(); }}>
+            <button className="button button-primary" type="button" onClick={handleClose}>
               Restart setup 
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6"/>

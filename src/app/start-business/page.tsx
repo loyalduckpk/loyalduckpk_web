@@ -147,10 +147,16 @@ export default function StartBusinessPage() {
       program_type: program,
     });
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, 8000);
+
     try {
       const res = await fetch('/api/onboarding/draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           business_name: businessName,
           category,
@@ -166,6 +172,8 @@ export default function StartBusinessPage() {
           provenance: 'website_wizard',
         }),
       });
+
+      clearTimeout(timeoutId);
 
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -185,15 +193,18 @@ export default function StartBusinessPage() {
       setHandoffUrl(targetUrl);
       setDialogOpen(true);
     } catch (err: unknown) {
+      clearTimeout(timeoutId);
       console.error('Draft handoff error:', err);
-      const msg =
-        err instanceof Error
-          ? err.message
-          : 'Could not save draft. You can copy your plan below.';
+      const isAbort = err instanceof DOMException && err.name === 'AbortError';
+      const msg = isAbort
+        ? 'Draft saving timed out. You can still copy your plan below or retry.'
+        : err instanceof Error
+        ? err.message
+        : 'Could not save draft. You can copy your plan below.';
       setSubmitError(msg);
       telemetry.track('onboarding_handoff_failed', {
         status: 'failed',
-        reason_code: 'draft_save_error',
+        reason_code: isAbort ? 'timeout' : 'draft_save_error',
         duration_ms: telemetry.getDurationMs(),
       });
     } finally {

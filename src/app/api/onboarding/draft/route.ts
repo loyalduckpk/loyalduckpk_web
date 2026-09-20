@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       p_provenance: body.provenance || 'website_wizard',
     };
 
-    // 2. Call Supabase save_onboarding_draft RPC
+    // 2. Call Supabase save_onboarding_draft RPC with 5s timeout
     const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/save_onboarding_draft`, {
       method: 'POST',
       headers: {
@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
         'apikey': SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       },
+      signal: AbortSignal.timeout(5000),
       body: JSON.stringify(payload),
     });
 
