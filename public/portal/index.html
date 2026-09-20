@@ -14,17 +14,14 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base id="app-base" href="/">
   <script>
     (function() {
-      try {
-        var isPortal = window.location.pathname.startsWith('/portal');
-        var baseElem = document.getElementById('app-base') || document.querySelector('base');
-        if (baseElem) {
-          baseElem.setAttribute('href', isPortal ? '/portal/' : '/');
-        }
-      } catch (e) {
-        console.error('Base href resolution error:', e);
+      var host = window.location.hostname;
+      var isSubdomain = host === 'business.loyalduck.pk' || host.startsWith('business.') || host.startsWith('business-');
+      var base = document.querySelector('base') || document.createElement('base');
+      base.href = (isSubdomain || window.location.pathname === '/' || !window.location.pathname.startsWith('/portal')) ? '/' : '/portal/';
+      if (!base.parentNode) {
+        document.head.insertBefore(base, document.head.firstChild);
       }
     })();
   </script>
