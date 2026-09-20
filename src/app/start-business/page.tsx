@@ -33,6 +33,7 @@ export default function StartBusinessPage() {
   const [isSearching, setIsSearching] = useState(false);
   const [showManualForm, setShowManualForm] = useState(true);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isSelfServiceEnabled = process.env.NEXT_PUBLIC_ENABLE_SELF_SERVICE_ONBOARDING !== 'false';
 
   // Initialize session telemetry on mount
   useEffect(() => {
