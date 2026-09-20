@@ -49,6 +49,8 @@ export async function POST(req: NextRequest) {
 
     const cleanEmail = body.contact_email?.trim() ? body.contact_email.trim().toLowerCase() : null;
 
+    let authSession: { access_token: string; refresh_token: string } | null = null;
+
     // 2. If password provided alongside email, provision the merchant representative account in Supabase Auth
     if (cleanEmail && body.password && body.password.length >= 6) {
       try {
@@ -69,6 +71,34 @@ export async function POST(req: NextRequest) {
         });
       } catch (authErr) {
         console.warn('Optional auth signup warning (will proceed with draft):', authErr);
+      }
+
+      // Automatically sign in to get active session tokens
+      try {
+        const tokenRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({
+            email: cleanEmail,
+            password: body.password,
+          }),
+          signal: AbortSignal.timeout(4000),
+        });
+
+        if (tokenRes.ok) {
+          const tokenData = await tokenRes.json();
+          if (tokenData.access_token && tokenData.refresh_token) {
+            authSession = {
+              access_token: tokenData.access_token,
+              refresh_token: tokenData.refresh_token,
+            };
+          }
+        }
+      } catch (tokenErr) {
+        console.warn('Optional token fetch warning:', tokenErr);
       }
     }
 
@@ -111,7 +141,7 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
 
-    // 4. Return draft handle and confirmed contact email
+    // 4. Return draft handle, confirmed contact email, and active session if available
     return NextResponse.json(
       {
         success: true,
@@ -119,6 +149,7 @@ export async function POST(req: NextRequest) {
         handoff_token: data.handoff_token,
         expires_at: data.expires_at,
         contact_email: cleanEmail,
+        session: authSession,
       },
       { headers: NO_INDEX_HEADERS }
     );

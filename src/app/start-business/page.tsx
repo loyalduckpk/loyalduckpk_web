@@ -48,8 +48,6 @@ export default function StartBusinessPage() {
 
   // UI status
   const [stepError, setStepError] = useState('');
-  const [copyStatus, setCopyStatus] = useState('');
-  const [copyFallback, setCopyFallback] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -209,28 +207,34 @@ export default function StartBusinessPage() {
       const businessBase = getBusinessAppBaseUrl();
       const baseUrl = `${businessBase}/onboarding`;
       const emailParam = cleanEmail ? `&email=${encodeURIComponent(cleanEmail)}` : '';
-      const targetUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}handoff=${encodeURIComponent(
+      let targetUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}handoff=${encodeURIComponent(
         data.handoff_token
       )}${emailParam}`;
+
+      if (data.session?.access_token && data.session?.refresh_token) {
+        targetUrl += `#access_token=${encodeURIComponent(data.session.access_token)}&refresh_token=${encodeURIComponent(data.session.refresh_token)}&token_type=bearer`;
+      }
+
       setHandoffUrl(targetUrl);
-      setDialogOpen(true);
+
+      // Streamlined direct navigation — take merchant directly to their onboarding console
+      window.location.href = targetUrl;
     } catch (err: unknown) {
       clearTimeout(timeoutId);
+      setIsSubmitting(false);
       console.error('Draft handoff error:', err);
       const isAbort = err instanceof DOMException && err.name === 'AbortError';
       const msg = isAbort
-        ? 'Draft saving timed out. You can still copy your plan below or retry.'
+        ? 'Connection timed out. Please check your connection and tap Continue again.'
         : err instanceof Error
         ? err.message
-        : 'Could not save draft. You can copy your plan below.';
+        : 'Could not connect to business onboarding. Please try again.';
       setSubmitError(msg);
       telemetry.track('onboarding_handoff_failed', {
         status: 'failed',
         reason_code: isAbort ? 'timeout' : 'draft_save_error',
         duration_ms: telemetry.getDurationMs(),
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -301,28 +305,6 @@ export default function StartBusinessPage() {
     program === 'visits'
       ? 'Staff confirms qualifying visits. Reward redemption is a separate action.'
       : `${Number(pointsCost || 500).toLocaleString('en-PK')} points → ${rewardName.trim() || 'Your reward'}`;
-
-  const generatedSummaryText = `Loyal Duck programme draft
-Business: ${businessName.trim() || 'Your place'}
-Category: ${category || 'Unspecified'}
-Operating Model: ${operatingModel}
-City: ${city.trim() || 'Unspecified'}
-Programme: ${program}
-${ruleSummary}
-${rewardDetail}
-${handoffUrl ? `Handoff Link (72h): ${handoffUrl}\n` : ''}Planning only. Real activation happens in Loyal Duck Business.`;
-
-  const handleCopy = async () => {
-    try {
-      if (!navigator.clipboard) throw new Error('Clipboard unavailable');
-      await navigator.clipboard.writeText(generatedSummaryText);
-      setCopyStatus('Plan copied to clipboard. You can paste it into your notes.');
-      setCopyFallback(false);
-    } catch {
-      setCopyStatus('Clipboard access is unavailable. Select and copy this plan:');
-      setCopyFallback(true);
-    }
-  };
 
   return (
     <div className="support-page">
@@ -762,8 +744,19 @@ ${handoffUrl ? `Handoff Link (72h): ${handoffUrl}\n` : ''}Planning only. Real ac
                   <button type="button" className="button button-quiet" onClick={handlePrev} disabled={isSubmitting}>
                     ← Edit
                   </button>
-                  <button type="button" className="button button-dark" onClick={handleCopy}>
-                    Copy my plan
+                  <button
+                    type="button"
+                    className="button button-primary"
+                    disabled={isSubmitting}
+                    onClick={handleContinueToBusiness}
+                    style={{ flex: 1 }}
+                  >
+                    {isSubmitting
+                      ? 'Opening Business Console...'
+                      : 'Continue to Business Onboarding'}
+                    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M5 12h14m-6-6 6 6-6 6" />
+                    </svg>
                   </button>
                 </div>
 
@@ -772,39 +765,6 @@ ${handoffUrl ? `Handoff Link (72h): ${handoffUrl}\n` : ''}Planning only. Real ac
                     {submitError}
                   </p>
                 )}
-
-                {copyStatus && (
-                  <p className="form-status" role="status" aria-live="polite">
-                    {copyStatus}
-                  </p>
-                )}
-
-                {copyFallback && (
-                  <textarea
-                    id="copy-fallback"
-                    readOnly
-                    rows={8}
-                    aria-label="Your local programme draft"
-                    value={generatedSummaryText}
-                    style={{ width: '100%', marginTop: '0.75rem' }}
-                    onClick={(e) => (e.target as HTMLTextAreaElement).select()}
-                  />
-                )}
-
-                <button
-                  type="button"
-                  className="button button-primary"
-                  style={{ marginTop: '1.25rem' }}
-                  disabled={isSubmitting}
-                  onClick={handleContinueToBusiness}
-                >
-                  {isSubmitting
-                    ? 'Saving your plan...'
-                    : 'Continue to Business onboarding'}
-                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg>
-                </button>
               </fieldset>
             )}
           </form>

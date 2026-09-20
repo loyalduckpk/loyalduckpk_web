@@ -18,11 +18,9 @@
     (function() {
       var host = window.location.hostname;
       var isSubdomain = host === 'business.loyalduck.pk' || host.startsWith('business.') || host.startsWith('business-');
-      var base = document.querySelector('base') || document.createElement('base');
+      var base = document.createElement('base');
       base.href = (isSubdomain || window.location.pathname === '/' || !window.location.pathname.startsWith('/portal')) ? '/' : '/portal/';
-      if (!base.parentNode) {
-        document.head.insertBefore(base, document.head.firstChild);
-      }
+      document.head.insertBefore(base, document.head.firstChild);
     })();
   </script>
 
