@@ -277,7 +277,7 @@ City: ${city.trim() || 'Unspecified'}
 Programme: ${program}
 ${ruleSummary}
 ${rewardDetail}
-Planning only. Real activation happens in Loyal Duck Business.`;
+${handoffUrl ? `Handoff Link (72h): ${handoffUrl}\n` : ''}Planning only. Real activation happens in Loyal Duck Business.`;
 
   const handleCopy = async () => {
     try {

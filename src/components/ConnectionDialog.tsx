@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type DestinationType = 'customerAppUrl' | 'businessOnboardingUrl' | 'businessLoginUrl';
 
@@ -48,6 +48,18 @@ export default function ConnectionDialog({
   businessName
 }: ConnectionDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = async () => {
+    if (!handoffUrl) return;
+    try {
+      await navigator.clipboard.writeText(handoffUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch {
+      // Fallback if clipboard API is blocked
+    }
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -130,6 +142,16 @@ export default function ConnectionDialog({
                 <path d="M5 12h14m-6-6 6 6-6 6"/>
               </svg>
             </a>
+
+            <button
+              className="button button-dark"
+              type="button"
+              onClick={handleCopyLink}
+              style={{ textAlign: 'center', cursor: 'pointer' }}
+            >
+              {copied ? '✓ Setup Link Copied!' : 'Copy Setup Link (72h)'}
+            </button>
+
             <button className="button button-quiet" type="button" onClick={onClose}>
               Stay on this page
             </button>
