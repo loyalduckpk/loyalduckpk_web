@@ -1,0 +1,14 @@
+# Security & anti-crawler headers for Loyal Duck Business Portal
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Prevent public caching of sensitive / dynamic application responses
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/flutter_service_worker.js
+  Cache-Control: max-age=0, no-cache, no-store, must-revalidate
