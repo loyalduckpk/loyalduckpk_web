@@ -1,0 +1,3 @@
+# Single Page Application (SPA) routing
+# Fallback all client routes to index.html with HTTP 200
+/*    /index.html   200

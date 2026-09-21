@@ -2,8 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 export default function Footer() {
+  const destinations = getDestinations();
+
   return (
     <footer id="connect" className="site-footer">
       <div className="container">
@@ -25,6 +28,7 @@ export default function Footer() {
             <Link href="/how-it-works">How it works</Link>
             <Link href="/offers">Offers & nearby</Link>
             <Link href="/get-started">Get Loyal Duck</Link>
+            <a href={destinations.customerAppUrl}>Customer app &amp; wallet</a>
             <Link href="/about">About the Duck</Link>
           </div>
 

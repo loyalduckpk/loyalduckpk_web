@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { getDestinations } from '@/lib/destinations';
 
 export const metadata: Metadata = {
   title: 'Pricing & Plans · Simple Pricing. No Duck Maths.',
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
+  const destinations = getDestinations();
+
   return (
     <div className="support-page">
       {/* Page Hero */}
@@ -93,12 +96,12 @@ export default function PricingPage() {
             </span>
             <h3>For customers: free.</h3>
             <p>One Loyal Duck account for rewards across participating businesses. The business sets the terms of each reward and offer.</p>
-            <Link className="text-link" href="/get-started">
+            <a className="text-link" href={destinations.customerAppUrl}>
               Get Loyal Duck
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </Link>
+            </a>
           </article>
 
           <article className="info-card">

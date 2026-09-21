@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { getDestinations } from '@/lib/destinations';
 
 export const metadata: Metadata = {
   title: 'How It Works · One Account for All Business Loyalty',
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function HowItWorksPage() {
+  const destinations = getDestinations();
+
   return (
     <div className="support-page">
       {/* Page Hero */}
@@ -34,12 +37,12 @@ export default function HowItWorksPage() {
             Your number. Your SMS code. Then your rewards live in one place—not in a different account for every shop.
           </p>
           <div className="hero-buttons">
-            <Link className="button button-primary" href="/get-started">
+            <a className="button button-primary" href={destinations.customerAppUrl}>
               Get your Duck
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </Link>
+            </a>
             <Link className="button button-quiet" href="/#rewards">
               See the rewards
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -216,12 +219,12 @@ export default function HowItWorksPage() {
             <span className="eyebrow">ONE ACCOUNT. YOUR KIND OF PLACES.</span>
             <h2>A little loyalty.<br />A lot less faff.</h2>
           </div>
-          <Link className="button button-dark" href="/get-started">
+          <a className="button button-dark" href={destinations.customerAppUrl}>
             Get Loyal Duck
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
-          </Link>
+          </a>
         </div>
       </section>
     </div>

@@ -2,8 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 export default function DeleteAccountPage() {
+  const destinations = getDestinations();
+
   return (
     <div className="support-page">
       {/* Page Hero */}
@@ -114,6 +117,13 @@ export default function DeleteAccountPage() {
               <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.875rem', color: '#5F6168' }}>
                 Sign in with your verified mobile number via SMS OTP to confirm identity. We never delete accounts from unverified public form posts.
               </p>
+              <a
+                href={`${destinations.customerAppUrl}/delete-account`}
+                className="inline-link"
+                style={{ display: 'inline-block', marginTop: '0.5rem', fontSize: '0.85rem' }}
+              >
+                Launch Web Deletion Session &rarr;
+              </a>
             </div>
             <div style={{ padding: '1.25rem', borderRadius: '1rem', background: '#F3F3F1' }}>
               <strong>3. Lost SIM / Assistance</strong>

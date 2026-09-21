@@ -35,7 +35,16 @@ export default function GetStartedPage() {
             One free account across participating businesses. Register with your number and SMS code. No new signup at every shop.
           </p>
           <div className="portal-actions">
-            <Link className="button button-primary" href="/how-it-works">
+            <a
+              className="button button-primary"
+              href={destinations.customerAppUrl}
+            >
+              Open Customer App
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6" />
+              </svg>
+            </a>
+            <Link className="button button-quiet" href="/how-it-works">
               How rewards work
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />

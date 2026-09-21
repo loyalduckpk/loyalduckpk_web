@@ -90,12 +90,12 @@ export default function Navbar() {
                 </svg>
               </a>
             ) : (
-              <Link className="button button-small button-dark" href="/get-started">
+              <a className="button button-small button-dark" href={destinations.customerAppUrl}>
                 Get Loyal Duck
                 <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6"/>
                 </svg>
-              </Link>
+              </a>
             )}
 
             <button
@@ -133,6 +133,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
+              <a href={destinations.customerAppUrl} onClick={() => setMobileMenuOpen(false)}>Customer app</a>
               <Link href="/offers" onClick={() => setMobileMenuOpen(false)}>Offers & nearby</Link>
               <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>

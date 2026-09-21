@@ -2,8 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 export default function HomeHero() {
+  const destinations = getDestinations();
+
   return (
     <>
       <section className="hero container" aria-labelledby="home-title">
@@ -20,15 +23,15 @@ export default function HomeHero() {
             <strong>One free account. That’s Loyal Duck.</strong>
           </p>
           <div className="hero-buttons">
-            <Link
+            <a
               className="button button-primary"
-              href="/get-started"
+              href={destinations.customerAppUrl}
             >
               Get your Duck
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6"/>
               </svg>
-            </Link>
+            </a>
             <Link className="button button-quiet" href="/business">
               I run a business
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

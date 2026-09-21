@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 type OfferKind = 'cafe' | 'salon' | 'car';
 
@@ -31,6 +32,7 @@ const offerSamples: Record<OfferKind, OfferSample> = {
 
 export default function OffersPage() {
   const [activeKind, setActiveKind] = useState<OfferKind>('cafe');
+  const destinations = getDestinations();
   const sample = offerSamples[activeKind];
 
   return (
@@ -49,12 +51,12 @@ export default function OffersPage() {
             Discover offers from participating Loyal Duck businesses. The coffee place, the salon, the car wash. Same account. More reasons to use it.
           </p>
           <div className="hero-buttons">
-            <Link className="button button-primary" href="/get-started">
+            <a className="button button-primary" href={destinations.customerAppUrl}>
               Browse in Loyal Duck
               <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6" />
               </svg>
-            </Link>
+            </a>
           </div>
           <p className="fineprint">
             This website explains the feature. Genuine merchant listings appear in the customer app from eligible participating businesses.
@@ -199,12 +201,12 @@ export default function OffersPage() {
             <span className="eyebrow">ONE ACCOUNT. YOUR KIND OF PLACES.</span>
             <h2>A little loyalty.<br />A lot less faff.</h2>
           </div>
-          <Link className="button button-dark" href="/get-started">
+          <a className="button button-dark" href={destinations.customerAppUrl}>
             Get Loyal Duck
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
-          </Link>
+          </a>
         </div>
       </section>
     </div>

@@ -25,6 +25,8 @@ function isAllowedHandoffUrl(urlStr: string): boolean {
       'localhost',
       '127.0.0.1',
       'app.loyalduck.com',
+      'app.loyalduck.pk',
+      'customer.loyalduck.pk',
       'business.loyalduck.pk',
       'loyalduckpk.com',
       'loyalduck.pk'

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getDestinations } from '@/lib/destinations';
 
 interface ClosingStripProps {
   variant?: 'customer' | 'business';
@@ -9,6 +10,7 @@ interface ClosingStripProps {
 
 export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps) {
   const isBusiness = variant === 'business';
+  const destinations = getDestinations();
 
   return (
     <>
@@ -31,12 +33,12 @@ export default function ClosingStrip({ variant = 'customer' }: ClosingStripProps
                 </svg>
               </Link>
             ) : (
-              <Link className="button button-dark" href="/get-started">
+              <a className="button button-dark" href={destinations.customerAppUrl}>
                 Get your Duck
                 <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6"/>
                 </svg>
-              </Link>
+              </a>
             )}
             <div className="closing-mascot-anchor" aria-hidden="true">
               <img

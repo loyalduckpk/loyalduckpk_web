@@ -45,6 +45,50 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
+  // Detect customer subdomain (e.g., app.loyalduck.pk or app.localhost:3000)
+  const isCustomerSubdomain =
+    host === 'app.loyalduck.pk' ||
+    host.startsWith('app.loyalduck.pk:') ||
+    host === 'customer.loyalduck.pk' ||
+    host.startsWith('customer.loyalduck.pk:') ||
+    host === 'app.localhost' ||
+    host.startsWith('app.localhost:') ||
+    host === 'customer.localhost' ||
+    host.startsWith('customer.localhost:') ||
+    host.startsWith('app.') ||
+    host.startsWith('customer.');
+
+  if (isCustomerSubdomain) {
+    const url = request.nextUrl.clone();
+
+    // 1. Root path -> serve Flutter Customer App entrypoint
+    if (pathname === '/' || pathname === '') {
+      url.pathname = '/app/index.html';
+      return NextResponse.rewrite(url);
+    }
+
+    // 2. Already starts with /app
+    if (pathname.startsWith('/app')) {
+      const hasFileExtension = pathname.split('/').pop()?.includes('.');
+      if (!hasFileExtension && pathname !== '/app' && pathname !== '/app/') {
+        url.pathname = '/app/index.html';
+        return NextResponse.rewrite(url);
+      }
+      return NextResponse.next();
+    }
+
+    // 3. Static asset with file extension (e.g., /flutter_bootstrap.js, /main.dart.js, /assets/...)
+    const hasFileExtension = pathname.split('/').pop()?.includes('.');
+    if (hasFileExtension) {
+      url.pathname = `/app${pathname}`;
+      return NextResponse.rewrite(url);
+    }
+
+    // 4. Client-side SPA routes (e.g. /auth, /delete-account, /m/...)
+    url.pathname = '/app/index.html';
+    return NextResponse.rewrite(url);
+  }
+
   // Fallback for main domain: let normal routes & Next.js config handle it
   return NextResponse.next();
 }

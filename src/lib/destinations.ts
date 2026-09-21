@@ -19,6 +19,8 @@ export interface AppDestinations {
   businessStartUrl: string;
   /** Authoritative Business app login destination */
   businessLoginUrl: string;
+  /** Authoritative Customer app launch and wallet destination */
+  customerAppUrl: string;
   /** Dedicated customer portal explaining multi-merchant rewards & registration */
   customerInfoUrl: string;
   /** Direct link to how the one-account loyalty model works */
@@ -28,6 +30,11 @@ export interface AppDestinations {
   /** Verified legal and privacy routes */
   legal: LegalDestinations;
 }
+
+/**
+ * Canonical production customer app subdomain.
+ */
+export const CANONICAL_CUSTOMER_APP_URL = 'https://app.loyalduck.pk';
 
 /**
  * Returns the resolved base URL for the Loyal Duck Business application.
@@ -58,14 +65,49 @@ export function getBusinessAppBaseUrl(): string {
 }
 
 /**
+ * Returns the resolved base URL or path for the Loyal Duck Customer application.
+ * Respects NEXT_PUBLIC_CUSTOMER_APP_URL and provides dual-mode subdomain / subpath support.
+ */
+export function getCustomerAppBaseUrl(): string {
+  // Check browser-injected or environment override
+  const envUrl = process.env.NEXT_PUBLIC_CUSTOMER_APP_URL;
+  if (envUrl && envUrl.trim().length > 0) {
+    return envUrl.trim().replace(/\/+$/, '');
+  }
+
+  // Check optional window.LOYAL_DUCK_SITE override if present in browser
+  if (typeof window !== 'undefined') {
+    const siteConfig = (window as unknown as { LOYAL_DUCK_SITE?: { customerAppUrl?: string } }).LOYAL_DUCK_SITE;
+    if (siteConfig && typeof siteConfig.customerAppUrl === 'string' && siteConfig.customerAppUrl.trim().length > 0) {
+      return siteConfig.customerAppUrl.trim().replace(/\/+$/, '');
+    }
+
+    const host = window.location.host;
+    if (host === 'loyalduck.pk' || host === 'www.loyalduck.pk' || host.includes('loyalduck.pk') || host.includes('vercel.app')) {
+      return 'https://app.loyalduck.pk';
+    }
+  }
+
+  // In production server environment, default to verified custom subdomain
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://app.loyalduck.pk';
+  }
+
+  // In Next.js dual hosting / local development, /app routes to the static Customer Web SPA immediately
+  return '/app';
+}
+
+/**
  * Resolves the complete typed destination map for marketing components.
  */
 export function getDestinations(): AppDestinations {
   const businessBase = getBusinessAppBaseUrl();
+  const customerBase = getCustomerAppBaseUrl();
 
   return {
     businessStartUrl: '/start-business',
     businessLoginUrl: `${businessBase}/login`,
+    customerAppUrl: customerBase,
     customerInfoUrl: '/get-started',
     howItWorksUrl: '/how-it-works',
     offersUrl: '/offers',

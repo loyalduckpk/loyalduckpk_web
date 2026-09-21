@@ -13,11 +13,35 @@ const nextConfig: NextConfig = {
           source: '/portal/',
           destination: '/portal/index.html',
         },
+        {
+          source: '/app',
+          destination: '/app/index.html',
+        },
+        {
+          source: '/app/',
+          destination: '/app/index.html',
+        },
+        {
+          source: '/customer',
+          destination: '/app/index.html',
+        },
+        {
+          source: '/customer/',
+          destination: '/app/index.html',
+        },
       ],
       fallback: [
         {
           source: '/portal/:path*',
           destination: '/portal/index.html',
+        },
+        {
+          source: '/app/:path*',
+          destination: '/app/index.html',
+        },
+        {
+          source: '/customer/:path*',
+          destination: '/app/index.html',
         },
       ],
     };
