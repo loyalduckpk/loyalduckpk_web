@@ -11,8 +11,47 @@ const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
   display: 'swap',
   adjustFontFallback: true,
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
   preload: true,
 });
+
+const criticalTypography = `
+:root {
+  --canvas: #F3F3F1;
+  --paper: #FFFFFF;
+  --ink: #17181A;
+  --muted: #5F6168;
+  --cobalt: #3155FF;
+  --gold: #FFC83D;
+  --sans: var(--font-jakarta), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+html { scroll-padding-top: 112px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: #F3F3F1;
+  color: #17181A;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1 { font-size: clamp(60px, 6.55vw, 98px); font-weight: 780; line-height: 1.015; letter-spacing: -0.066em; }
+h2 { font-size: clamp(36px, 4.1vw, 60px); font-weight: 740; line-height: 1.06; letter-spacing: -0.055em; }
+h3 { font-size: 25px; font-weight: 700; line-height: 1.17; letter-spacing: -0.035em; }
+.brand-strip { font-size: 9px; letter-spacing: 0.12em; font-weight: 600; line-height: 1.3; }
+.eyebrow { font-size: 11px; font-weight: 750; letter-spacing: 0.15em; text-transform: uppercase; }
+.desktop-nav a { font-size: 13px; font-weight: 580; }
+.button { font-size: 14px; font-weight: 680; letter-spacing: -0.012em; line-height: 1.4; }
+.button-small { font-size: 12px; }
+.fineprint { font-size: 12px; line-height: 1.75; }
+.quiet-note { font-size: 13px; line-height: 1.65; }
+.micro-label { font-size: 9px; font-weight: 750; letter-spacing: 0.08em; }
+.pill { font-size: 9px; font-weight: 750; letter-spacing: 0.055em; line-height: 1.3; }
+.stage-caption { font-size: 9px; letter-spacing: 0.09em; font-weight: 650; }
+`;
+
 
 const siteUrl = 'https://loyalduck.pk';
 const siteTitle = 'Loyal Duck — One account for all business loyalty';
@@ -136,6 +175,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={jakarta.variable}>
       <head>
+        <style
+          id="critical-typography"
+          dangerouslySetInnerHTML={{ __html: criticalTypography }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
