@@ -137,8 +137,17 @@ export async function POST(req: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Supabase save_onboarding_draft error:', errorText);
+      let userMessage = 'Failed to save setup draft. Please try again or copy your plan.';
+      try {
+        const parsed = JSON.parse(errorText);
+        if (parsed?.message && typeof parsed.message === 'string') {
+          userMessage = parsed.message;
+        }
+      } catch {
+        // fallback to standard friendly error
+      }
       return NextResponse.json(
-        { error: 'Failed to save setup draft. Please try again or copy your plan.' },
+        { error: userMessage },
         { status: response.status, headers: NO_INDEX_HEADERS }
       );
     }
