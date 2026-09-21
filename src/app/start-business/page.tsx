@@ -20,6 +20,8 @@ export default function StartBusinessPage() {
   const [streetAddress, setStreetAddress] = useState('');
   const [operatingModel, setOperatingModel] = useState<OperatingModel>('fixed');
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
+  const [placeLatitude, setPlaceLatitude] = useState<number | null>(null);
+  const [placeLongitude, setPlaceLongitude] = useState<number | null>(null);
 
   // Representative / Owner Account fields
   const [representativeName, setRepresentativeName] = useState('');
@@ -109,11 +111,15 @@ export default function StartBusinessPage() {
       if (details.name) setBusinessName(details.name);
       if (details.city) setCity(details.city);
       if (details.formatted_address) setStreetAddress(details.formatted_address);
+      if (typeof details.latitude === 'number') setPlaceLatitude(details.latitude);
+      if (typeof details.longitude === 'number') setPlaceLongitude(details.longitude);
     }
   };
 
   const handleManualEntryToggle = () => {
     setSelectedPlaceId(null);
+    setPlaceLatitude(null);
+    setPlaceLongitude(null);
     setShowManualForm(true);
     telemetry.track('onboarding_search_selected', {
       method: 'manual',
@@ -180,6 +186,8 @@ export default function StartBusinessPage() {
           city: city || 'Lahore',
           street_address: streetAddress.trim() || undefined,
           place_id: selectedPlaceId || undefined,
+          latitude: placeLatitude ?? undefined,
+          longitude: placeLongitude ?? undefined,
           operating_model: operatingModel,
           program_type: program,
           reward_name: rewardName,

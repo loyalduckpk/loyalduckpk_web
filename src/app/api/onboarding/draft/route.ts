@@ -7,6 +7,8 @@ interface SaveDraftBody {
   city?: string;
   street_address?: string | null;
   place_id?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   program_type?: 'visits' | 'points';
   reward_name: string;
   visit_threshold?: number;
@@ -116,6 +118,8 @@ export async function POST(req: NextRequest) {
       p_points_cost: body.points_cost || null,
       p_provenance: body.provenance || 'website_wizard',
       p_contact_email: cleanEmail,
+      p_latitude: typeof body.latitude === 'number' ? body.latitude : null,
+      p_longitude: typeof body.longitude === 'number' ? body.longitude : null,
     };
 
     // 3. Call Supabase save_onboarding_draft RPC with 5s timeout
